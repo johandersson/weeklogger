@@ -1,20 +1,15 @@
-*WeekLogger*
+#WeekLogger
+
+A simple java app for logging working time per week
 
 Copyright: Johan Andersson, johanbkandersson@gmail.com
 
-License: GPL v3
--------------------------------------------------------
-Libraries required:
-	- Gson (http://code.google.com/p/google-gson/)
-	- Apache Commons
-	- testNG (if you want to run the tests)
-	- log4j (logging)
-	- MigLayout (for swing layout)
+All specified in the pom
 	
 Texts in the program is currently only in swedish
 
-________________________________________________________
-
+License: GPL v3
+---------------------------------------------------------------
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
