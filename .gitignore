@@ -8,3 +8,31 @@
 *.css
 
 *.jar
+
+target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.TestTimer.xml
+
+target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.LogEntryHandlerTest.xml
+
+target/surefire-reports/Command line suite/Command line test.properties
+
+weeklogger.txt
+
+target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.LogEntryValidationTest.xml
+
+target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.LogEntryTest.xml
+
+target/surefire-reports/TEST-TestSuite.xml
+
+target/surefire-reports/TestSuite.txt
+
+target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.TestLogEntryTableModel.xml
+
+.DS_Store
+
+target/surefire-reports/Command line suite/Command line test.xml
+
+target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.WeekLoggerFileHandlerTest.xml
+
+target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.WeekLoggerWindowTest.xml
+
+target/surefire-reports/testng-results.xml
