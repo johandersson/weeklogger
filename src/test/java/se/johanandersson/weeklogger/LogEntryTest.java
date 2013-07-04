@@ -15,18 +15,6 @@ import se.johanandersson.weeklogger.LogEntryValidationException;
 import se.johanandersson.weeklogger.Time;
 
 public class LogEntryTest {
-//	@Test
-//	public void testSortLogEntries() throws LogEntryValidationException {
-//		List<LogEntry> testLogEntries = WeekLoggerFileHandlerTest
-//				.createCorrectTestLogEntries();
-//
-//		Collections.sort(testLogEntries);
-//
-//		//for (LogEntry l : testLogEntries)
-//			//System.out.println(l);
-//
-//	}
-
 	@Test
 	public void dateBeforeTheOther() throws ParseException {
 		String d1 = "2013-12-12";

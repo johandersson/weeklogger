@@ -272,7 +272,7 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 		// TODO Auto-generated method stub
 		
 		int answer = JOptionPane.showConfirmDialog(this,
-				"??r du s??ker p?? att du vill st??nga?");
+				"Är du säker på att du vill stänga?");
 		if (answer == 0) {
 			System.exit(0);
 		}

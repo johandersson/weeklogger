@@ -9,7 +9,6 @@ public class Main {
 	
 	
 	 public static void main(String[] args) {
-		// take the menu bar off the jframe
 		 handleMacOS();
 		 
 	        SwingUtilities.invokeLater(new Runnable() {

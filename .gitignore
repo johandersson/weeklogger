@@ -36,3 +36,11 @@ target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.WeekLogge
 target/surefire-reports/junitreports/TEST-se.johanandersson.weeklogger.WeekLoggerWindowTest.xml
 
 target/surefire-reports/testng-results.xml
+
+*.gif
+
+test-output/junitreports/TEST-se.johanandersson.weeklogger.LogEntryHandlerTest.xml
+
+*.xml
+
+*.js

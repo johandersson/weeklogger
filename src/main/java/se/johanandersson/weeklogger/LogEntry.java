@@ -1,7 +1,10 @@
 package se.johanandersson.weeklogger;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Random;
+
+import org.joda.time.DateTime;
 
 /**
  * 
@@ -19,9 +22,12 @@ public class LogEntry implements Comparable<LogEntry> {
 
 	public LogEntry() throws LogEntryValidationException {
 		setComment("");
-		setLogDate(DateTimeUtils.getCurrentDate());
-		setWeek(DateTimeUtils.getCurrentWeek()); // set the week to current
-		setYear(DateTimeUtils.getCurrentYear());
+		
+		DateTime dt = new DateTime(new Date());
+		
+		setLogDate(dt.toString());
+		setWeek(dt.getWeekOfWeekyear()); // set the week to current
+		setYear(String.valueOf(dt.getYear()));
 	}
 
 	public int getWeek() {

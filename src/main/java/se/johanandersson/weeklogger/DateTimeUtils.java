@@ -1,10 +1,13 @@
 package se.johanandersson.weeklogger;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * 
@@ -15,17 +18,15 @@ public class DateTimeUtils {
 	private static Calendar cal;
 
 	public static int getCurrentWeek() {
-		cal = Calendar.getInstance();
-		int currentWeek = cal.get(Calendar.WEEK_OF_YEAR);
-		return currentWeek;
+		DateTime dt = new DateTime();
+		return dt.getWeekOfWeekyear();
+		
 	}
 
 	public static String getCurrentDate() {
-		cal = Calendar.getInstance();
-		DateFormat f1 = DateFormat.getDateInstance(DateFormat.SHORT);
-		Date now = new Date();
-		now = cal.getTime();
-		return f1.format(now);
+		  DateTimeFormatter dtFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		  DateTime dt = new DateTime();
+		  return dt.toString(dtFormatter);
 	}
 
 	public static Time getCurrentTime() {
@@ -44,29 +45,24 @@ public class DateTimeUtils {
 		return String.valueOf(year);
 	}
 
-	public static boolean dateBeforeTheOther(String d1, String d2) throws ParseException {
-	
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date date1 = sdf.parse(d1);
-			Date date2 = sdf.parse(d2);
-			System.out.println(sdf.format(date1));
-			System.out.println(sdf.format(date2));
+	public static boolean dateBeforeTheOther(String d1, String d2)
+			throws ParseException {
 
-			if (date1.compareTo(date2) > 0) {
-				return false;
-			} else if (date1.compareTo(date2) < 0) {
-				return true;
-			} else if (date1.compareTo(date2) == 0) {
-				return false;
-			}
-			else{
-				return false;
-			}
-}
-	
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date1 = sdf.parse(d1);
+		Date date2 = sdf.parse(d2);
+		System.out.println(sdf.format(date1));
+		System.out.println(sdf.format(date2));
 
+		if (date1.compareTo(date2) > 0) {
+			return false;
+		} else if (date1.compareTo(date2) < 0) {
+			return true;
+		} else if (date1.compareTo(date2) == 0) {
+			return false;
+		} else {
+			return false;
+		}
+	}
 
-
-	
-	
 }
