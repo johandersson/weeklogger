@@ -95,7 +95,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
 		createPopupMenu();
 
-		this.setTitle("Veckologgaren - översikt");
+		this.setTitle("Veckologgaren - Översikt");
 		pack();
 		this.setVisible(true);
 

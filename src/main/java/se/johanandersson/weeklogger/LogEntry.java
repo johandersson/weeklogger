@@ -117,10 +117,6 @@ public class LogEntry implements Comparable<LogEntry> {
 
 	@Override
 	public int compareTo(LogEntry that) {
-		if (this.week < that.week)
-			return -1;
-		if (this.week > that.week)
-			return 1;
 		
 		try {
 			if (DateTimeUtils.dateBeforeTheOther(this.getLogDate(),

@@ -1,5 +1,6 @@
 package se.johanandersson.weeklogger;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,8 +16,7 @@ import org.joda.time.format.DateTimeFormatter;
  * 
  */
 public class DateTimeUtils {
-	private static Calendar cal;
-
+	
 	public static int getCurrentWeek() {
 		DateTime dt = new DateTime();
 		return dt.getWeekOfWeekyear();
@@ -26,7 +26,7 @@ public class DateTimeUtils {
 	public static String getCurrentDate() {
 		  DateTimeFormatter dtFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 		  DateTime dt = new DateTime();
-		  return dt.toString(dtFormatter);
+          return dt.toString(dtFormatter);
 	}
 
 	public static Time getCurrentTime() {
@@ -51,8 +51,6 @@ public class DateTimeUtils {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date1 = sdf.parse(d1);
 		Date date2 = sdf.parse(d2);
-		System.out.println(sdf.format(date1));
-		System.out.println(sdf.format(date2));
 
 		if (date1.compareTo(date2) > 0) {
 			return false;

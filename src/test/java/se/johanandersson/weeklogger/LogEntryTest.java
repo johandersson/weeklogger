@@ -17,7 +17,7 @@ import se.johanandersson.weeklogger.Time;
 public class LogEntryTest {
 	@Test
 	public void dateBeforeTheOther() throws ParseException {
-		String d1 = "2013-12-12";
+		String d1 = "2012-12-12";
 		String d2 = "2013-12-31";
 
 		Assert.assertTrue(DateTimeUtils.dateBeforeTheOther(d1, d2));
