@@ -37,7 +37,7 @@ public class LogEntryTest {
 		
 		printLogEntryList(logEntryList, ">>>Before sort");
 		
-		Collections.sort(logEntryList);
+		Collections.sort(logEntryList, new LogEntryComparator());
 		
 
 		printLogEntryList(logEntryList, ">>>After sort");

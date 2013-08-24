@@ -30,15 +30,21 @@ public class TestLogEntryTableModel {
 	  String actualLogDate = (String)letm.getValueAt(0, 0);
 	  String expectedLogDate = le.getLogDate();
 	  
-	  String actualStartTime = (String)letm.getValueAt(0, 1);
+	  String actualWeek = letm.getValueAt(0, 1);
+	  String expectedWeek = String.valueOf(le.getWeek());
+	  
+	  
+	  String actualStartTime = (String)letm.getValueAt(0, 2);
 	  String expectedStartTime = le.getStartTime();
 	  
-	  String actualStopTime = (String)letm.getValueAt(0, 2);
+	  String actualStopTime = (String)letm.getValueAt(0, 3);
 	  String expectedStopTime = le.getStopTime();
 	  
 	  Assert.assertEquals(actualLogDate, expectedLogDate);
 	  Assert.assertEquals(actualStartTime,expectedStartTime);
 	  Assert.assertEquals(actualStopTime,expectedStopTime);
+	  Assert.assertEquals(actualWeek, expectedWeek);
+
 	   
 	  
   }

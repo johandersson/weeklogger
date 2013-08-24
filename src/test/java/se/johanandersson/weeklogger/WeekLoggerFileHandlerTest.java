@@ -86,13 +86,13 @@ public class WeekLoggerFileHandlerTest {
 	private static void genTestLogDate(LogEntry logEntry)
 			throws LogEntryValidationException {
 	
-		logEntry.setLogDate(RandomDates.INSTANCE.getRandomDate());
-		logEntry.setYear(String.valueOf(RandomDates.INSTANCE.getYear()));
-		logEntry.setWeek(RandomDates.INSTANCE.getWeek());
+		logEntry.setLogDate(DateTimeUtils.genRandomDate());
+		logEntry.setYear(String.valueOf(DateTimeUtils.genRandomYear()));
+		logEntry.setWeek(DateTimeUtils.genRandomWeek());
 
 		logEntry.setStartTime("12:00:01");
-		logEntry.setStopTime("12:00:00");
-		logEntry.setTotalTime(new Time(0, 0, 1));
+		logEntry.setStopTime("13:04:01");
+		logEntry.setTotalTime(new Time(1, 4, 0));
 
 	}
 

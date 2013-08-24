@@ -1,9 +1,12 @@
 package se.johanandersson.weeklogger;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import org.joda.time.DateTime;
 
 @SuppressWarnings("serial")
 /**
@@ -20,7 +23,7 @@ public class LogEntryTableModel extends AbstractTableModel {
 
 	}
 
-	private String[] columnNames = { "Datum", "Från", "Till", "Total",
+	private String[] columnNames = { "Datum", "Vecka", "Från", "Till", "Total",
 			"Kommentar" };
 
 	public int getColumnCount() {
@@ -46,18 +49,24 @@ public class LogEntryTableModel extends AbstractTableModel {
 			break;
 
 		case 1:
-			logEntryObjectToReturn = getSelectedRowEntry(row).getStartTime();
+			logEntryObjectToReturn = String.valueOf(getSelectedRowEntry(row)
+					.getWeek());
 			break;
 
 		case 2:
-			logEntryObjectToReturn = getSelectedRowEntry(row).getStopTime();
+			logEntryObjectToReturn = getSelectedRowEntry(row).getStartTime();
 			break;
 
 		case 3:
-			logEntryObjectToReturn = getSelectedRowEntry(row).getTotalTime().toString();
+			logEntryObjectToReturn = getSelectedRowEntry(row).getStopTime();
 			break;
 
 		case 4:
+			logEntryObjectToReturn = getSelectedRowEntry(row).getTotalTime()
+					.toString();
+			break;
+
+		case 5:
 			logEntryObjectToReturn = getSelectedRowEntry(row).getComment();
 			break;
 
@@ -80,7 +89,25 @@ public class LogEntryTableModel extends AbstractTableModel {
 
 	public void setLogEntryTable(List<LogEntry> logEntryTable) {
 		Collections.sort(logEntryTable);
+		// sortLogEntryTable(logEntryTable);
 		this.logEntryTable = logEntryTable;
+	}
+
+	private void sortLogEntryTable(List<LogEntry> let) {
+		ArrayList<DateTime> dtList = new ArrayList<DateTime>();
+
+		for (LogEntry l : let) {
+			DateTime dt = new DateTime(l.getLogDate());
+			dtList.add(dt);
+		}
+
+		Collections.sort(dtList);
+
+		for (DateTime dt : dtList) {
+			System.out.println(String.valueOf(dt.getWeekOfWeekyear()) + ":"
+					+ String.valueOf(dt.getYear()) + "\n");
+		}
+
 	}
 
 }

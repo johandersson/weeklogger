@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.Random;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeParser;
 
 /**
  * 
@@ -22,9 +27,9 @@ public class LogEntry implements Comparable<LogEntry> {
 
 	public LogEntry() throws LogEntryValidationException {
 		setComment("");
-		
+
 		DateTime dt = new DateTime(new Date());
-		
+
 		setLogDate(dt.toString());
 		setWeek(dt.getWeekOfWeekyear()); // set the week to current
 		setYear(String.valueOf(dt.getYear()));
@@ -77,8 +82,9 @@ public class LogEntry implements Comparable<LogEntry> {
 
 	@Override
 	public String toString() {
-		return "Vecka: " + week + " Start:" + startTime + " Stop:" + stopTime + " Total:"
-				+ totalTime + " Date:" + logDate + " Comment:" + comment;
+		return "Vecka: " + week + " Start:" + startTime + " Stop:" + stopTime
+				+ " Total:" + totalTime + " Date:" + logDate + " Comment:"
+				+ comment;
 
 	}
 
@@ -117,20 +123,30 @@ public class LogEntry implements Comparable<LogEntry> {
 
 	@Override
 	public int compareTo(LogEntry that) {
-		
-		try {
-			if (DateTimeUtils.dateBeforeTheOther(this.getLogDate(),
-					that.getLogDate())) {
-				return 1;
-			}
-			else
-				return -1;
-		} catch (ParseException e) {
-			System.err.println("Can't parse dates when comparing two logentries");
-			e.printStackTrace();
-		}
-		
-		return 0;
+
+		DateTime dt1 = new DateTime(this.getLogDate());
+		DateTime dt2 = new DateTime(that.getLogDate());
+
+		dt1 = dt1.withWeekOfWeekyear(this.getWeek()>1 ? this.getWeek() -1: this.getWeek());
+		dt2 = dt2.withWeekOfWeekyear(that.getWeek()>1 ? that.getWeek() -1: that.getWeek());
+
+		return dt1.compareTo(dt2);
 	}
 
+	private int getMonth() {
+		DateTime dt = new DateTime(this.getLogDate());
+		return dt.getMonthOfYear(); // set the week to current
+	}
+
+	@Override
+	public int hashCode() {
+		int result = HashCodeUtil.SEED;
+		// collect the contributions of various fields
+		result = HashCodeUtil.hash(result, this.logDate);
+		result = HashCodeUtil.hash(result, this.week);
+		result = HashCodeUtil.hash(result, this.startTime);
+		result = HashCodeUtil.hash(result, this.stopTime);
+		return result;
+
+	}
 }
