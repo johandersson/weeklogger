@@ -27,14 +27,22 @@ public class WeekLoggerFileHandler {
 	private BufferedWriter outputStream;
 	private Gson jsonObjectHandler;
 	private static final String WEEKLOGGER_FILE = "weeklogger.txt";
+	private static WeekLoggerFileHandler INSTANCE;
+	
+
+	protected static WeekLoggerFileHandler getInstance() throws IOException {
+		if (INSTANCE == null) {
+			INSTANCE = new WeekLoggerFileHandler();
+		}
+		return INSTANCE;
+	}
 
 	public static String getWeekloggerFile() {
 		return WEEKLOGGER_FILE;
 	}
 
-	public WeekLoggerFileHandler() {
+	private WeekLoggerFileHandler() {
 		jsonObjectHandler = new Gson();
-
 	}
 
 	public void createOrReadWeekLoggerFile() {
@@ -63,9 +71,6 @@ public class WeekLoggerFileHandler {
 			addLogEntriesFromFileToListOfLogEntries(logEntries, br);
 			fileReader.close();
 		} catch (FileNotFoundException fnfe) {
-			// TODO Auto-generated catch block
-			System.err.println("The file " + WEEKLOGGER_FILE
-					+ " couldn't be found");
 			createOrReadWeekLoggerFile();
 		}
 
@@ -93,38 +98,16 @@ public class WeekLoggerFileHandler {
 		outPutFile.close();
 	}
 
-	public List<LogEntry> readEntriesWithSameWeekFromFile(int week) {
-		LogEntryHandler timeLoggerFromFile = new LogEntryHandler();
-		try {
-			timeLoggerFromFile = getAllLogEntriesFromFile();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			System.err.println("Couldn't read log entries from file!!!");
-		}
-		List<LogEntry> entriesWithTheSameWeek = timeLoggerFromFile
-				.getEntriesWithTheSameWeek(week);
+	public List<LogEntry> readEntriesWithSameWeekFromFile(int week) throws IOException {
+		LogEntryCalculator logEntryCalc = new LogEntryCalculator(this.getAllLogEntriesFromFile());
+		List<LogEntry> entriesWithTheSameWeek = logEntryCalc.getLogEntriesWithTheSameWeek(week);
 		return entriesWithTheSameWeek;
 	}
 
-	public List<LogEntry> readEntriesWithSameYearAndWeekFromFile(int year,
-			int week) throws IOException {
-		LogEntryHandler timeLoggerFromFile = new LogEntryHandler();
-		try {
-			timeLoggerFromFile = getAllLogEntriesFromFile();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			System.err.println("Couldn't read log entries from file!!!");
-		}
-		List<LogEntry> entriesWithTheSameYear = timeLoggerFromFile
-				.getLogEntriesWithSameYearAndWeek(year, week);
-		return entriesWithTheSameYear;
-	}
 
-	public LogEntryHandler getAllLogEntriesFromFile() throws IOException {
-		LogEntryHandler timeLogger = new LogEntryHandler();
+	public List<LogEntry> getAllLogEntriesFromFile() throws IOException {
 		List<LogEntry> readJsonStream = readAllLogEntriesFromFile();
-		timeLogger.setLogEntries(readJsonStream);
-		return timeLogger;
+		return readJsonStream;
 
 	}
 

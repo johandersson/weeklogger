@@ -19,6 +19,8 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public class DateTimeUtils {
 
+	public static DateTime dt;
+
 	public static int getCurrentWeek() {
 		DateTime dt = new DateTime();
 		return dt.getWeekOfWeekyear();
@@ -26,9 +28,14 @@ public class DateTimeUtils {
 	}
 
 	public static String getCurrentDate() {
-		DateTimeFormatter dtFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTimeFormatter dtFormatter = getDateFormat();
 		DateTime dt = new DateTime();
 		return dt.toString(dtFormatter);
+	}
+
+	public static DateTimeFormatter getDateFormat() {
+		DateTimeFormatter dtFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		return dtFormatter;
 	}
 
 	public static Time getCurrentTime() {
@@ -41,10 +48,10 @@ public class DateTimeUtils {
 
 	}
 
-	public static String getCurrentYear() {
+	public static int getCurrentYear() {
 		Calendar c = Calendar.getInstance();
 		int year = c.get(Calendar.YEAR);
-		return String.valueOf(year);
+		return year;
 	}
 
 	public static boolean dateBeforeTheOther(String d1, String d2)
@@ -59,23 +66,21 @@ public class DateTimeUtils {
 	 * Creates random date for testing purposes
 	 * @return Date-string in yy-mm-dd form
 	 */
-	public static String genRandomDate() {
+	public static String getRandomDateString() {
 		long offset = Timestamp.valueOf("2005-01-01 00:00:00").getTime();
 		long end = Timestamp.valueOf("2013-01-01 00:00:00").getTime();
 		long diff = end - offset + 1;	
 		Timestamp rand = new Timestamp(offset + (long) (Math.random() * diff));
-		DateTimeFormatter dtFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-		DateTime dt = new DateTime(rand);
+		DateTimeFormatter dtFormatter = getDateFormat();
+		dt = new DateTime(rand);
 		return dt.toString(dtFormatter);
 	}
 
 	public static int genRandomWeek() {
-		DateTime dt = new DateTime(genRandomDate());
 		return dt.getWeekOfWeekyear();
 	}
 
 	public static int genRandomYear() {
-		DateTime dt = new DateTime(genRandomDate());
 		return dt.getYear();
 	}
 	

@@ -17,8 +17,8 @@ import org.testng.annotations.Test;
 public class RandomDateTest {
   @Test
   public void testGetRandomDate() {
-	  Assert.assertNotNull(DateTimeUtils.genRandomDate());
-	  Assert.assertTrue(DateTimeUtils.genRandomDate().length()>2);
+	  Assert.assertNotNull(DateTimeUtils.getRandomDateString());
+	  Assert.assertTrue(DateTimeUtils.getRandomDateString().length()>2);
   }
   
   @Test

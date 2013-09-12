@@ -9,11 +9,10 @@ import javax.swing.JComboBox;
 
 public class WeekComboBoxListener implements ActionListener {
 
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		String year = null;
+
+		int year = 0;
 		int week = DateTimeUtils.getCurrentWeek();
 		try {
 			year = LogEntryWindow.getInstance().getSelectedYear();
@@ -21,18 +20,16 @@ public class WeekComboBoxListener implements ActionListener {
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		};
-		
-		
-		 
-	
+		}
+		;
+
 		try {
 			updateLogEntries(year, week);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}	
-		
+		}
+
 		updateLabel();
 	}
 
@@ -47,10 +44,10 @@ public class WeekComboBoxListener implements ActionListener {
 		return yearSelector;
 	}
 
-	private void updateLogEntries(String year, int week) throws IOException {
-		LogEntryHandler logEntryHandler = new LogEntryHandler();
-		
-		List<LogEntry> entriesWithTheSameWeekAndYear = logEntryHandler.getLogEntriesWithSameWeekAndYearFromFile(Integer.valueOf(year), week);
+	private void updateLogEntries(int year, int week) throws IOException {
+		List<LogEntry> entriesWithTheSameWeekAndYear = LogEntryWindow
+				.getInstance().getLogEntryHandler()
+				.getLogEntriesWithSameYearAndWeek(year, week);
 		updateLogEntries(entriesWithTheSameWeekAndYear);
 	}
 
@@ -65,7 +62,8 @@ public class WeekComboBoxListener implements ActionListener {
 
 	private void updateLogEntries(List<LogEntry> entriesWithTheSameWeek) {
 		try {
-			LogEntryWindow.getInstance().updateLogEntryTableWithEntries(entriesWithTheSameWeek);
+			LogEntryWindow.getInstance().updateLogEntryTableWithEntries(
+					entriesWithTheSameWeek);
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

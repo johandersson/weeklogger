@@ -18,21 +18,20 @@ import org.joda.time.format.DateTimeParser;
  */
 public class LogEntry implements Comparable<LogEntry> {
 	private int week;
+	private int year;
 	private String startTime;
 	private String stopTime;
 	private Time totalTime;
 	private String logDate;
 	private String comment;
-	private String year;
+
 
 	public LogEntry() throws LogEntryValidationException {
 		setComment("");
-
-		DateTime dt = new DateTime(new Date());
-
-		setLogDate(dt.toString());
+		DateTime dt = new DateTime();
+		setLogDate(dt.toString(DateTimeUtils.getDateFormat()));
 		setWeek(dt.getWeekOfWeekyear()); // set the week to current
-		setYear(String.valueOf(dt.getYear()));
+		setYear(dt.getYear());
 	}
 
 	public int getWeek() {
@@ -107,17 +106,17 @@ public class LogEntry implements Comparable<LogEntry> {
 				&& this.getStopTime().equals(that.getStopTime())
 				&& this.getLogDate().equals(that.getLogDate())
 				&& this.getWeek() == that.getWeek()
-				&& this.getYear().equals(that.getYear())
+				&& this.getYear() == that.getYear()
 				&& this.getTotalTime().toString()
 						.equals(that.getTotalTime().toString());
 
 	}
 
-	public String getYear() {
+	public int getYear() {
 		return year;
 	}
 
-	public void setYear(String year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 
@@ -127,6 +126,7 @@ public class LogEntry implements Comparable<LogEntry> {
 		DateTime dt1 = new DateTime(this.getLogDate());
 		DateTime dt2 = new DateTime(that.getLogDate());
 
+		//TODO: Can't Jodatime handle week 53?
 		dt1 = dt1.withWeekOfWeekyear(this.getWeek()>1 ? this.getWeek() -1: this.getWeek());
 		dt2 = dt2.withWeekOfWeekyear(that.getWeek()>1 ? that.getWeek() -1: that.getWeek());
 
@@ -144,8 +144,10 @@ public class LogEntry implements Comparable<LogEntry> {
 		// collect the contributions of various fields
 		result = HashCodeUtil.hash(result, this.logDate);
 		result = HashCodeUtil.hash(result, this.week);
+		result = HashCodeUtil.hash(result, this.year);
 		result = HashCodeUtil.hash(result, this.startTime);
 		result = HashCodeUtil.hash(result, this.stopTime);
+		result = HashCodeUtil.hash(result, this.totalTime);
 		return result;
 
 	}

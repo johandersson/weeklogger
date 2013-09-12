@@ -32,35 +32,36 @@ public class WeekLoggerFileHandlerTest {
 		if (file.exists())
 			file.delete();
 	}
+	
+	
 
 	@Test
-	public void createOrReadWeekLoggerFile() {
-		WeekLoggerFileHandler wlfh = new WeekLoggerFileHandler();
-		wlfh.createOrReadWeekLoggerFile();
-		Assert.assertNotNull(wlfh.getOutputStream());
+	public void createOrReadWeekLoggerFile() throws IOException {
+		WeekLoggerFileHandler.getInstance().createOrReadWeekLoggerFile();
+		Assert.assertNotNull(WeekLoggerFileHandler.getInstance().getOutputStream());
+		
 	}
 
-	@Test
-	void foo() {
-
-	}
 
 	@Test
 	public void testWrite() throws IOException, LogEntryValidationException {
-		WeekLoggerFileHandler wlfw = new WeekLoggerFileHandler();
-		wlfw.createOrReadWeekLoggerFile();
+		WeekLoggerFileHandler.getInstance().createOrReadWeekLoggerFile();
 		List<LogEntry> logEntries = new ArrayList<LogEntry>();
 		logEntries = createCorrectTestLogEntries();
-		wlfw.writeLogEntriesToFile(logEntries);
+		WeekLoggerFileHandler.getInstance().writeLogEntriesToFile(logEntries);
 		Assert.assertEquals(countNumberOfLinesInFile("weeklogger.txt"), 1000);
 
+	}
+	
+	@Test
+	public void testLogEntryInFile() throws IOException, LogEntryValidationException{
+		Assert.assertFalse(WeekLoggerFileHandler.getInstance().isLogEntryInFile(new LogEntry()));
 	}
 
 	@Test
 	public void testEmptyFile() throws IOException {
 		removeFile();
-		WeekLoggerFileHandler wlfh = new WeekLoggerFileHandler();
-		Assert.assertTrue(wlfh.fileHasNoLogEntries());
+		Assert.assertTrue(WeekLoggerFileHandler.getInstance().fileHasNoLogEntries());
 
 	}
 
@@ -86,8 +87,8 @@ public class WeekLoggerFileHandlerTest {
 	private static void genTestLogDate(LogEntry logEntry)
 			throws LogEntryValidationException {
 	
-		logEntry.setLogDate(DateTimeUtils.genRandomDate());
-		logEntry.setYear(String.valueOf(DateTimeUtils.genRandomYear()));
+		logEntry.setLogDate(DateTimeUtils.getRandomDateString());
+		logEntry.setYear(DateTimeUtils.genRandomYear());
 		logEntry.setWeek(DateTimeUtils.genRandomWeek());
 
 		logEntry.setStartTime("12:00:01");

@@ -89,25 +89,9 @@ public class LogEntryTableModel extends AbstractTableModel {
 
 	public void setLogEntryTable(List<LogEntry> logEntryTable) {
 		Collections.sort(logEntryTable);
-		// sortLogEntryTable(logEntryTable);
 		this.logEntryTable = logEntryTable;
 	}
 
-	private void sortLogEntryTable(List<LogEntry> let) {
-		ArrayList<DateTime> dtList = new ArrayList<DateTime>();
 
-		for (LogEntry l : let) {
-			DateTime dt = new DateTime(l.getLogDate());
-			dtList.add(dt);
-		}
-
-		Collections.sort(dtList);
-
-		for (DateTime dt : dtList) {
-			System.out.println(String.valueOf(dt.getWeekOfWeekyear()) + ":"
-					+ String.valueOf(dt.getYear()) + "\n");
-		}
-
-	}
 
 }

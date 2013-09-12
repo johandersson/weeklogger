@@ -13,7 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import se.johanandersson.weeklogger.itext.PDFHandler;
-import se.johanandersson.weeklogger.PdfGeneratorException;
+
+
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfFileSpecification;
@@ -35,10 +36,9 @@ public class GenerateReportButtonListener implements ActionListener {
 			e1.printStackTrace();
 		}
 
-		WeekLoggerFileHandler wlfh = new WeekLoggerFileHandler();
 		List<LogEntry> readAllLogEntriesFromFile;
 		try {
-			if (!wlfh.fileHasNoLogEntries()) {
+			if (!WeekLoggerFileHandler.getInstance().fileHasNoLogEntries()) {
 				List<LogEntry> logEntries= LogEntryWindow.getInstance().getLogEntryTableModel();
 				pdf.createTableForCertainWeek(logEntries);
 				pdf.closeDocument();
@@ -82,7 +82,7 @@ public class GenerateReportButtonListener implements ActionListener {
 			JOptionPane
 					.showMessageDialog(
 							WeekLoggerWindow.getInstance(),
-							"St??????d sakas f??????r att ??????ppna pdf-filen direkt i f??????rvalt program. F??????rs??????k att ??????ppna filen manuellt fr??????n: "
+							"Stöd sakas för att öppna pdf-filen direkt i förvalt program. Försök att öppna filen manuellt från: "
 									+ pdfFile.getAbsolutePath());
 		}
 	}
@@ -95,7 +95,7 @@ public class GenerateReportButtonListener implements ActionListener {
 		} catch (IOException e) {
 			JOptionPane
 					.showMessageDialog(WeekLoggerWindow.getInstance(),
-							"Kunde inte ??????ppna pdf-fil. Se till att du har en pdf-l??????sare installerad.");
+							"Kunde inte öppna pdf-fil. Se till att du har en pdf-läsare installerad.");
 		}
 	}
 

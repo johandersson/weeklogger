@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 
 import se.johanandersson.weeklogger.LogEntry;
-import se.johanandersson.weeklogger.LogEntryComparator;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -54,7 +53,7 @@ public class PDFHandler {
 	}
 
 	public void createTableForCertainWeek(List<LogEntry> logEntryList) throws DocumentException {
-		Collections.sort(logEntryList, new LogEntryComparator());
+		Collections.sort(logEntryList);
 		
 		for(LogEntry logEntry:logEntryList){
 			addLogEntryToCurrentTable(logEntry);

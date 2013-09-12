@@ -110,13 +110,11 @@ public class LogEntryValidationTest {
 		LogEntry testLogEntry = createTestLogEntry();
 		logEntries.add(testLogEntry);
 		Assert.assertTrue(logEntries.contains(testLogEntry));
+		WeekLoggerFileHandler.getInstance().writeLogEntryToFileInJSONFormat(testLogEntry);
+		Assert.assertTrue(WeekLoggerFileHandler.getInstance().isLogEntryInFile(testLogEntry));
 		
-		WeekLoggerFileHandler weekLoggerFileHandler = new WeekLoggerFileHandler();
-		weekLoggerFileHandler.writeLogEntryToFileInJSONFormat(testLogEntry);
-		Assert.assertTrue(weekLoggerFileHandler.isLogEntryInFile(testLogEntry));
-		
-		weekLoggerFileHandler.deleteCertainLogEntryInFile(testLogEntry);
-		Assert.assertFalse(weekLoggerFileHandler.isLogEntryInFile(testLogEntry));
+		WeekLoggerFileHandler.getInstance().deleteCertainLogEntryInFile(testLogEntry);
+		Assert.assertFalse(WeekLoggerFileHandler.getInstance().isLogEntryInFile(testLogEntry));
 		
 		
 	}
@@ -130,7 +128,7 @@ public class LogEntryValidationTest {
 		le.setStopTime("10:00:02");
 		le.setTotalTime(new Time(1,0,1));
 		le.setWeek(47);
-		le.setYear("2014");
+		le.setYear(2014);
 		return le;
 	}
 

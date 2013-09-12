@@ -8,160 +8,104 @@ import java.util.List;
 /**
  * 
  * @author Johan Andersson
- *
+ * 
  */
 public class LogEntryHandler {
 
 	private List<LogEntry> logEntries;
+	private LogEntryCalculator logEntryCalc;
 
-	public LogEntryHandler() {
-		logEntries = new ArrayList<LogEntry>();
-
+	public LogEntryHandler() throws IOException {
+		logEntryCalc = new LogEntryCalculator(this.getLogEntries());
 	}
 
-	public void addLogEntryToList(LogEntry logEntry) {
+	public void addLogEntryToList(LogEntry logEntry) throws IOException {
 		getLogEntries().add(logEntry);
 	}
 
-	public List<LogEntry> getLogEntryList() {
+	public List<LogEntry> getLogEntryList() throws IOException {
 		return getLogEntries();
 	}
 
 	public Time getTotalTimeOfAllLogEntries() throws IOException {
-		WeekLoggerFileHandler weekLoggerFileHandler = new WeekLoggerFileHandler();
-		LogEntryHandler allLogEntriesFromFile = weekLoggerFileHandler.getAllLogEntriesFromFile();
-		List<LogEntry> allLogEntries = allLogEntriesFromFile.getLogEntries();
-		return calculateTotalTimeOfLogEntries(allLogEntries);
+		return getLogEntryCalc().calculateTotalTimeOfLogEntries(this.getAllStoredLogEntries());
 	}
-	
-	public Time getTotalTimeOfLogEntriesForCertainWeek(int week) throws IOException{
-		WeekLoggerFileHandler weekLoggerFileHandler = new WeekLoggerFileHandler();
-		List<LogEntry> entriesWithSameWeek = weekLoggerFileHandler.readEntriesWithSameWeekFromFile(week);
-		Time totalTimeOfLogEntries = this.calculateTotalTimeOfLogEntries(entriesWithSameWeek);
-		
-		if(totalTimeOfLogEntries == null)
-			return new Time(0,0,0);
-		
+
+	public Time getTotalTimeOfLogEntriesForCertainWeek(int week)
+			throws IOException {
+
+		List<LogEntry> entriesWithSameWeek = WeekLoggerFileHandler
+				.getInstance().readEntriesWithSameWeekFromFile(week);
+		Time totalTimeOfLogEntries = getLogEntryCalc()
+				.calculateTotalTimeOfLogEntries(entriesWithSameWeek);
+
+		if (totalTimeOfLogEntries == null)
+			return new Time(0, 0, 0);
+
 		return totalTimeOfLogEntries;
 	}
-	
-	private Time calculateTotalTimeOfLogEntries(
-			List<LogEntry> logEntries) {
-		int sumOfAllSeconds = 0;
-		int sumOfAllMinutes = 0;
-		int sumOfAllHours = 0;
 
-		for (LogEntry logEntry : logEntries) {
-			Time totalTime = logEntry.getTotalTime();
-			sumOfAllSeconds = getSumOfAllSeconds(sumOfAllSeconds, totalTime);
-			sumOfAllMinutes = getSumOfAllMinutes(sumOfAllMinutes, totalTime);
-			sumOfAllHours = getSumOfAllHours(sumOfAllHours, totalTime);
-		}
-
-		return new Time(sumOfAllHours, sumOfAllMinutes, sumOfAllSeconds);
-	}
-
-	private int getSumOfAllHours(int sumOfAllHours, Time totalTime) {
-		int hours = totalTime.getHours();
-		sumOfAllHours += hours;
-		return sumOfAllHours;
-	}
-
-	private int getSumOfAllMinutes(int sumOfAllMinutes, Time totalTime) {
-		int minutes = totalTime.getMinutes();
-		sumOfAllMinutes += minutes;
-		return sumOfAllMinutes;
-	}
-
-	private int getSumOfAllSeconds(int sumOfAllSeconds, Time totalTime) {
-		int seconds = totalTime.getSeconds();
-		sumOfAllSeconds += seconds;
-		return sumOfAllSeconds;
-	}
-
-	public List<LogEntry> getEntriesWithTheSameWeek(int week) {
-		List<LogEntry> logEntriesWithSameWeek = new ArrayList<LogEntry>();
-		for (LogEntry logEntry : this.getLogEntryList()) {
-			if (logEntry.getWeek() == week)
-				logEntriesWithSameWeek.add(logEntry);
-		}
-
-		return logEntriesWithSameWeek;
-	}
-	
-	
-	public List<LogEntry> getLogEntriesWithSameWeekAndYearFromFile(int year,int week) throws IOException {
-		WeekLoggerFileHandler weekLoggerFileHandler = new WeekLoggerFileHandler();
-		List<LogEntry> entriesWithTheSameWeek = weekLoggerFileHandler.readEntriesWithSameYearAndWeekFromFile(year,week);
-		return entriesWithTheSameWeek;
-	}
-
-	public List<Integer> getListOfWeeks() {
+	public List<Integer> getListOfWeeks() throws IOException {
 		List<Integer> listOfWeeks = new ArrayList<Integer>();
-		
+
 		for (LogEntry logEntry : this.getLogEntryList()) {
 			int week = logEntry.getWeek();
 			if (!listOfWeeks.contains(week))
 				listOfWeeks.add(week);
 		}
-		
-		Collections.sort(listOfWeeks); 
+
+		Collections.sort(listOfWeeks);
 		return listOfWeeks;
 	}
 
-	public List<LogEntry> getLogEntries() {
-		return logEntries;
+	public List<LogEntry> getLogEntries() throws IOException {
+		if (logEntries == null)
+			return WeekLoggerFileHandler.getInstance()
+					.getAllLogEntriesFromFile();
+		else
+			return logEntries;
+	}
+	
+	public void update() throws IOException{
+		logEntries = WeekLoggerFileHandler.getInstance().getAllLogEntriesFromFile();
 	}
 
 	public void setLogEntries(List<LogEntry> logEntries) {
 		this.logEntries = logEntries;
 	}
 
-	public List<LogEntry> getLogEntriesWithSameYearAndWeek(int year, int week) throws IOException {
-		WeekLoggerFileHandler weekLoggerFileHandler = new WeekLoggerFileHandler();
-		LogEntryHandler allLogEntriesFromFile = weekLoggerFileHandler.getAllLogEntriesFromFile();
-		
-		List<LogEntry> logEntriesWithSameYear = new ArrayList<LogEntry>();
-		
-		for(LogEntry logEntry:allLogEntriesFromFile.getLogEntries()){
-			if(Integer.valueOf(logEntry.getYear())==year && logEntry.getWeek() == week){
-				logEntriesWithSameYear.add(logEntry);
-			}
-		}
-		
-		
-		return logEntriesWithSameYear;
-		
+	public List<LogEntry> getLogEntriesWithSameYearAndWeek(int year, int week)
+			throws IOException {
+		return getLogEntryCalc()
+				.getLogEntriesWithTheSameYearAndWeek(year, week);
+
 	}
 
-	public List<String> getListOfYears() {
-	List<String> listOfWeeks = new ArrayList<String>();
-		
+	public List<Integer> getListOfYears() throws IOException {
+		List<Integer> listOfWeeks = new ArrayList<Integer>();
+
 		for (LogEntry logEntry : this.getLogEntryList()) {
-			String year = logEntry.getYear();
+			int year = logEntry.getYear();
 			if (!listOfWeeks.contains(year))
 				listOfWeeks.add(year);
 		}
-		
-		Collections.sort(listOfWeeks); 
+
+		Collections.sort(listOfWeeks);
 		return listOfWeeks;
 	}
 
-	public List<LogEntry> getLogEntriesWithSameYear(int year) throws IOException {
-		WeekLoggerFileHandler weekLoggerFileHandler = new WeekLoggerFileHandler();
-		LogEntryHandler allLogEntriesFromFile = weekLoggerFileHandler.getAllLogEntriesFromFile();
-		
-		List<LogEntry> logEntriesWithSameYear = new ArrayList<LogEntry>();
-		
-		for(LogEntry logEntry:allLogEntriesFromFile.getLogEntries()){
-			if(Integer.valueOf(logEntry.getYear())==year){
-				logEntriesWithSameYear.add(logEntry);
-			}
-		}
-		
-		
-		return logEntriesWithSameYear;
-		
+	public List<LogEntry> getLogEntriesWithSameYear(int year)
+			throws IOException {
+		return getLogEntryCalc().getLogEntriesWithTheSameYear(year);
+
+	}
+
+	private LogEntryCalculator getLogEntryCalc() {
+		return logEntryCalc;
+	}
+
+	public List<LogEntry> getAllStoredLogEntries() throws IOException {
+		return WeekLoggerFileHandler.getInstance().getAllLogEntriesFromFile();
 	}
 
 }

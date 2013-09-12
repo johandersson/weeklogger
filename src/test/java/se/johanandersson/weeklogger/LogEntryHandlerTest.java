@@ -12,15 +12,7 @@ import se.johanandersson.weeklogger.LogEntryHandler;
 public class LogEntryHandlerTest {
 	@Test
 	public void f() {
-		LogEntryHandler l = new LogEntryHandler();
-		Assert.assertTrue(l.getLogEntries().isEmpty());
-	}
-
-	@Test
-	public void getLogEntriesWithSameYear() throws IOException{
-//		LogEntryHandler logEntryHandler = new LogEntryHandler();
-//		List<LogEntry> entriesWithSameYear = logEntryHandler.getEntriesWithSameYear(2013);
-//		Assert.assertNotNull(entriesWithSameYear);
+	
 	}
 	
 }

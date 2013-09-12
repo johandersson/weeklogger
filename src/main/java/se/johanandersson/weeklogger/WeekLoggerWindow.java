@@ -53,8 +53,6 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 	private JMenuItem aboutMenuItem;
 	
 	static Logger logger = Logger.getLogger(WeekLoggerWindow.class);
-
-	private WeekLoggerFileHandler wlfw;
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -69,12 +67,12 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 
 		setCurrentLogEntry(new LogEntry());
 		timer = new Timer(1000, this);
-		wlfw = new WeekLoggerFileHandler();
 		clock = new Clock(new Time(0, 0, 0));
 	
 		//Don't exit on 'X'-window-click
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
+		
 		BasicConfigurator.configure();
 		logger.info("Created window");
 	}
@@ -204,7 +202,7 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 		
 		if(StringUtils.isBlank(commentText)){
 			int answer = JOptionPane.showConfirmDialog(this,
-					"Du skrev ingen kommentar. Vill du ??????nd?????? logga?");
+					"Du skrev ingen kommentar. Vill du ändå logga?");
 			if (answer != 0) {
 				resetClockAndTimerButtons();
 				return;
@@ -246,7 +244,7 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 
 	private void writeCurrentLogEntryToFile() {
 		try {
-			wlfw.writeLogEntryToFileInJSONFormat(getCurrentLogEntry());
+			WeekLoggerFileHandler.getInstance().writeLogEntryToFileInJSONFormat(getCurrentLogEntry());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

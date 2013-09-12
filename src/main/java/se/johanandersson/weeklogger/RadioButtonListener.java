@@ -11,14 +11,15 @@ import javax.swing.JRadioButton;
 
 public class RadioButtonListener implements ActionListener {
 
-	private WeekLoggerFileHandler weekLoggerFileHandler;
+	private LogEntryHandler logEntryHandler;
 
-	public RadioButtonListener() {
-		weekLoggerFileHandler = new WeekLoggerFileHandler();
+	public RadioButtonListener() throws IOException {
+		logEntryHandler = new LogEntryHandler();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		JComboBox weekSelector = null;
 		JRadioButton filterByAllWeeks = null;
 		JRadioButton filterByCertainWeekSelected = null;
@@ -54,11 +55,8 @@ public class RadioButtonListener implements ActionListener {
 		if (weekSelector.getSelectedItem() != null) {
 			try {
 				int week = LogEntryWindow.getInstance().getSelectedWeek();
-				String year = LogEntryWindow.getInstance().getSelectedYear();
-				
-				
-				List<LogEntry> logEntries = weekLoggerFileHandler
-						.readEntriesWithSameYearAndWeekFromFile(Integer.valueOf(year), week);
+				int year = LogEntryWindow.getInstance().getSelectedYear();
+				List<LogEntry> logEntries = logEntryHandler.getLogEntriesWithSameYearAndWeek(year, week);
 				LogEntryWindow.getInstance().updateLogEntryTableWithEntries(logEntries);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -69,11 +67,9 @@ public class RadioButtonListener implements ActionListener {
 
 	private void filterByAllWeeks(JComboBox weekSelector) throws IOException {
 		weekSelector.setEnabled(false);
-		String year = LogEntryWindow.getInstance().getSelectedYear();
+		int year = LogEntryWindow.getInstance().getSelectedYear();
 		try {
-			LogEntryHandler allLogEntriesFromFile = weekLoggerFileHandler
-					.getAllLogEntriesFromFile();
-			List<LogEntry> logEntries = allLogEntriesFromFile.getLogEntriesWithSameYear(Integer.valueOf(year));
+			List<LogEntry> logEntries = logEntryHandler.getLogEntriesWithSameYear(year);
 			LogEntryWindow.getInstance().updateLogEntryTableWithEntries(logEntries);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
