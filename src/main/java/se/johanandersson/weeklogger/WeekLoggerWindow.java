@@ -244,7 +244,7 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 
 	private void writeCurrentLogEntryToFile() {
 		try {
-			WeekLoggerFileHandler.getInstance().writeLogEntryToFileInJSONFormat(getCurrentLogEntry());
+			LogEntryWindow.getInstance().getLogEntryHandler().writeLogEntry(getCurrentLogEntry());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

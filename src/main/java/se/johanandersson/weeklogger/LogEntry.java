@@ -129,11 +129,6 @@ public class LogEntry implements Comparable<LogEntry> {
 		return dt1.compareTo(dt2);
 	}
 
-	private int getMonth() {
-		DateTime dt = new DateTime(this.getLogDate());
-		return dt.getMonthOfYear(); // set the week to current
-	}
-
 	@Override
 	public int hashCode() {
 		int result = HashCodeUtil.SEED;

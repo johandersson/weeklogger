@@ -49,7 +49,7 @@ public class WeekLoggerFileHandlerTest {
 		List<LogEntry> logEntries = new ArrayList<LogEntry>();
 		logEntries = createCorrectTestLogEntries();
 		WeekLoggerFileHandler.getInstance().writeLogEntriesToFile(logEntries);
-		Assert.assertEquals(countNumberOfLinesInFile("weeklogger.txt"), 1000);
+		Assert.assertEquals(countNumberOfLinesInFile("weeklogger.txt"), 5000);
 
 	}
 	
@@ -70,7 +70,7 @@ public class WeekLoggerFileHandlerTest {
 
 		List<LogEntry> logEntries = new ArrayList<LogEntry>();
 
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 5000; i++) {
 			LogEntry logEntry = new LogEntry();
 			logEntry.setComment("Test" + i);
 			genTestLogDate(logEntry);

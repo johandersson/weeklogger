@@ -65,6 +65,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 	private LogEntryHandler logEntryHandler;
 
 	public void update() throws IOException {
+		logEntryHandler.resetLogEntries();
 		updateTotalTimeLabel();
 		updateTotalTimeForCertainWeekLabel();
 		updateTable();
@@ -287,8 +288,8 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 			LogEntryValidationException {
 		int selectedRow = getSelectedLogEntryRow();
 		LogEntry selectedLogEntryFromTable = getSelectedLogEntryFromTable(selectedRow);
-		WeekLoggerFileHandler.getInstance().deleteCertainLogEntryInFile(
-				selectedLogEntryFromTable);
+		logEntryHandler.deleteLogEntry(selectedLogEntryFromTable);
+		
 		update();
 	}
 

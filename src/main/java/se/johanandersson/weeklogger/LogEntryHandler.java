@@ -23,10 +23,6 @@ public class LogEntryHandler {
 		getLogEntries().add(logEntry);
 	}
 
-	public List<LogEntry> getLogEntryList() throws IOException {
-		return getLogEntries();
-	}
-
 	public Time getTotalTimeOfAllLogEntries() throws IOException {
 		return getLogEntryCalc().calculateTotalTimeOfLogEntries(this.getLogEntries());
 	}
@@ -48,7 +44,7 @@ public class LogEntryHandler {
 	public List<Integer> getListOfWeeks() throws IOException {
 		List<Integer> listOfWeeks = new ArrayList<Integer>();
 
-		for (LogEntry logEntry : this.getLogEntryList()) {
+		for (LogEntry logEntry : this.getLogEntries()) {
 			int week = logEntry.getWeek();
 			if (!listOfWeeks.contains(week))
 				listOfWeeks.add(week);
@@ -66,8 +62,8 @@ public class LogEntryHandler {
 			return logEntries;
 	}
 	
-	public void update() throws IOException{
-		logEntries = WeekLoggerFileHandler.getInstance().getAllLogEntriesFromFile();
+	public void resetLogEntries() throws IOException{
+		logEntries = null;
 	}
 
 	public void setLogEntries(List<LogEntry> logEntries) {
@@ -84,7 +80,7 @@ public class LogEntryHandler {
 	public List<Integer> getListOfYears() throws IOException {
 		List<Integer> listOfWeeks = new ArrayList<Integer>();
 
-		for (LogEntry logEntry : this.getLogEntryList()) {
+		for (LogEntry logEntry : this.getLogEntries()) {
 			int year = logEntry.getYear();
 			if (!listOfWeeks.contains(year))
 				listOfWeeks.add(year);
@@ -102,6 +98,15 @@ public class LogEntryHandler {
 
 	private LogEntryCalculator getLogEntryCalc() {
 		return logEntryCalc;
+	}
+
+	public void deleteLogEntry(LogEntry selectedLogEntryFromTable) throws IOException, LogEntryValidationException {
+		WeekLoggerFileHandler.getInstance().deleteCertainLogEntryInFile(
+				selectedLogEntryFromTable);
+	}
+
+	public void writeLogEntry(LogEntry currentLogEntry) throws IOException{
+		WeekLoggerFileHandler.getInstance().writeLogEntryToFileInJSONFormat(currentLogEntry);
 	}
 
 	
