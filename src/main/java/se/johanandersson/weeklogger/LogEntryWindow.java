@@ -300,8 +300,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
 	private List<LogEntry> updateLogEntryTableBasedOnSelectedWeekAndYear()
 			throws IOException {
-		List<LogEntry> updatedLogEntries = WeekLoggerFileHandler.getInstance()
-				.readAllLogEntriesFromFile();
+		List<LogEntry> updatedLogEntries = logEntryHandler.getLogEntries();
 		if (weekAndYearNotNull()) {
 			if (filterByAllWeeks.isSelected()) {
 

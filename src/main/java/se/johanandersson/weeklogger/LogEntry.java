@@ -126,10 +126,6 @@ public class LogEntry implements Comparable<LogEntry> {
 		DateTime dt1 = new DateTime(this.getLogDate());
 		DateTime dt2 = new DateTime(that.getLogDate());
 
-		//TODO: Can't Jodatime handle week 53?
-		dt1 = dt1.withWeekOfWeekyear(this.getWeek()>1 ? this.getWeek() -1: this.getWeek());
-		dt2 = dt2.withWeekOfWeekyear(that.getWeek()>1 ? that.getWeek() -1: that.getWeek());
-
 		return dt1.compareTo(dt2);
 	}
 

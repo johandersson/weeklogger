@@ -44,3 +44,17 @@ test-output/junitreports/TEST-se.johanandersson.weeklogger.LogEntryHandlerTest.x
 *.xml
 
 *.js
+
+.classpath
+
+.idea/.name
+
+*.iml
+
+*.prefs
+
+.project
+
+*.png
+
+*.properties

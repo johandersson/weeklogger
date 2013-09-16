@@ -28,7 +28,7 @@ public class LogEntryHandler {
 	}
 
 	public Time getTotalTimeOfAllLogEntries() throws IOException {
-		return getLogEntryCalc().calculateTotalTimeOfLogEntries(this.getAllStoredLogEntries());
+		return getLogEntryCalc().calculateTotalTimeOfLogEntries(this.getLogEntries());
 	}
 
 	public Time getTotalTimeOfLogEntriesForCertainWeek(int week)
@@ -104,8 +104,6 @@ public class LogEntryHandler {
 		return logEntryCalc;
 	}
 
-	public List<LogEntry> getAllStoredLogEntries() throws IOException {
-		return WeekLoggerFileHandler.getInstance().getAllLogEntriesFromFile();
-	}
+	
 
 }

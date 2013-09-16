@@ -61,7 +61,7 @@ public class WeekLoggerFileHandler {
 	/*
 	 * Read logentries from file in json-format and return as list of LogEntry
 	 */
-	public List<LogEntry> readAllLogEntriesFromFile() throws IOException {
+	private List<LogEntry> readAllLogEntriesFromFile() throws IOException {
 		List<LogEntry> logEntries = new ArrayList<LogEntry>();
 
 		try {
