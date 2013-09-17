@@ -98,13 +98,6 @@ public class WeekLoggerFileHandler {
 		outPutFile.close();
 	}
 
-	public List<LogEntry> readEntriesWithSameWeekFromFile(int week) throws IOException {
-		LogEntryCalculator logEntryCalc = new LogEntryCalculator(this.getAllLogEntriesFromFile());
-		List<LogEntry> entriesWithTheSameWeek = logEntryCalc.getLogEntriesWithTheSameWeek(week);
-		return entriesWithTheSameWeek;
-	}
-
-
 	public List<LogEntry> getAllLogEntriesFromFile() throws IOException {
 		List<LogEntry> readJsonStream = readAllLogEntriesFromFile();
 		return readJsonStream;

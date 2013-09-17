@@ -1,16 +1,29 @@
 package se.johanandersson.weeklogger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 public class LogEntryCalculatorTest {
+	private LogEntryHandler logEntryHandler;
+	private LogEntryCalculator logCalc;
+
+	@BeforeSuite
+	public void setUp() throws IOException, LogEntryValidationException{
+		logEntryHandler = new LogEntryHandler();
+		logEntryHandler.setLogEntries(genTestLogEntries());
+		logCalc = new LogEntryCalculator(logEntryHandler);
+	}
+	
 	@Test
-	public void testCalculateTotalTime() throws LogEntryValidationException {
-		LogEntryCalculator logCalc = new LogEntryCalculator(new ArrayList<LogEntry>());
+	public void testCalculateTotalTime() throws LogEntryValidationException, IOException {
+		
+		
 		Assert.assertNotNull(logCalc);
 		Assert.assertNotNull(logCalc
 				.calculateTotalTimeOfLogEntries(new ArrayList<LogEntry>()));
@@ -21,21 +34,20 @@ public class LogEntryCalculatorTest {
 	}
 	
 	@Test
-	public void testGetLogEntriesWithSameWeekAndYear() throws LogEntryValidationException{
-		LogEntryCalculator logCalc = new LogEntryCalculator(genTestLogEntries());
+	public void testGetLogEntriesWithSameWeekAndYear() throws LogEntryValidationException, IOException{
+		logEntryHandler.setLogEntries(genTestLogEntries());
+		LogEntryCalculator logCalc = new LogEntryCalculator(logEntryHandler);
 		Assert.assertEquals(2, logCalc.getLogEntriesWithTheSameYearAndWeek(2012, 12).size());
 	}
 	
 	@Test
-	public void testGetLogEntriesWithSameWeek() throws LogEntryValidationException{
-		LogEntryCalculator logCalc = new LogEntryCalculator(genTestLogEntries());
+	public void testGetLogEntriesWithSameWeek() throws LogEntryValidationException, IOException{
 		Assert.assertEquals(3, logCalc.getLogEntriesWithTheSameWeek(12).size());
 		
 	}
 	
 	@Test
-	public void testGetLogEntriesWithSameYear() throws LogEntryValidationException{
-		LogEntryCalculator logCalc = new LogEntryCalculator(genTestLogEntries());
+	public void testGetLogEntriesWithSameYear() throws LogEntryValidationException, IOException{
 		Assert.assertEquals(2, logCalc.getLogEntriesWithTheSameYear(2014).size());
 		
 	}

@@ -14,9 +14,10 @@ public class LogEntryHandler {
 
 	private List<LogEntry> logEntries;
 	private LogEntryCalculator logEntryCalc;
+	private LogEntryHandler logEntryHandler;
 
 	public LogEntryHandler() throws IOException {
-		logEntryCalc = new LogEntryCalculator(this.getLogEntries());
+		logEntryCalc = new LogEntryCalculator(this);
 	}
 
 	public void addLogEntryToList(LogEntry logEntry) throws IOException {
@@ -30,8 +31,7 @@ public class LogEntryHandler {
 	public Time getTotalTimeOfLogEntriesForCertainWeek(int week)
 			throws IOException {
 
-		List<LogEntry> entriesWithSameWeek = WeekLoggerFileHandler
-				.getInstance().readEntriesWithSameWeekFromFile(week);
+		List<LogEntry> entriesWithSameWeek = readEntriesWithSameWeekFromFile(week);
 		Time totalTimeOfLogEntries = getLogEntryCalc()
 				.calculateTotalTimeOfLogEntries(entriesWithSameWeek);
 
@@ -39,6 +39,11 @@ public class LogEntryHandler {
 			return new Time(0, 0, 0);
 
 		return totalTimeOfLogEntries;
+	}
+
+	private List<LogEntry> readEntriesWithSameWeekFromFile(int week) throws IOException {
+		List<LogEntry> entriesWithTheSameWeek = logEntryCalc.getLogEntriesWithTheSameWeek(week);
+		return entriesWithTheSameWeek;
 	}
 
 	public List<Integer> getListOfWeeks() throws IOException {
@@ -100,9 +105,9 @@ public class LogEntryHandler {
 		return logEntryCalc;
 	}
 
-	public void deleteLogEntry(LogEntry selectedLogEntryFromTable) throws IOException, LogEntryValidationException {
+	public void deleteLogEntry(LogEntry logEntry) throws IOException, LogEntryValidationException {
 		WeekLoggerFileHandler.getInstance().deleteCertainLogEntryInFile(
-				selectedLogEntryFromTable);
+				logEntry);
 	}
 
 	public void writeLogEntry(LogEntry currentLogEntry) throws IOException{

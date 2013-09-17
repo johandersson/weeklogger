@@ -1,15 +1,19 @@
 package se.johanandersson.weeklogger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class LogEntryCalculator {
 
-	private List<LogEntry> logEntries;
+	
 
-	public LogEntryCalculator(List<LogEntry> le) {
-		this.logEntries = le;
+	private LogEntryHandler logEntryHandler;
+
+
+	public LogEntryCalculator(LogEntryHandler logEntryHandler) {
+		this.logEntryHandler = logEntryHandler;
 	}
 
 
@@ -46,10 +50,10 @@ public class LogEntryCalculator {
 		return sumOfAllSeconds;
 	}
 
-	public List<LogEntry> getLogEntriesWithTheSameYearAndWeek(int year, int week) {
+	public List<LogEntry> getLogEntriesWithTheSameYearAndWeek(int year, int week) throws IOException {
 		List<LogEntry> logEntriesWithSameYearAndWeek = new ArrayList<LogEntry>();
 
-		for (LogEntry logEntry : this.logEntries) {
+		for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
 			if (logEntry.getYear() == year
 					&& logEntry.getWeek() == week) {
 				logEntriesWithSameYearAndWeek.add(logEntry);
@@ -59,9 +63,9 @@ public class LogEntryCalculator {
 
 	}
 
-	public List<LogEntry> getLogEntriesWithTheSameWeek(int week) {
+	public List<LogEntry> getLogEntriesWithTheSameWeek(int week) throws IOException {
 		List<LogEntry> logEntriesWithSameWeek = new ArrayList<LogEntry>();
-		for (LogEntry logEntry : this.logEntries) {
+		for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
 			if (logEntry.getWeek() == week)
 				logEntriesWithSameWeek.add(logEntry);
 		}
@@ -69,10 +73,10 @@ public class LogEntryCalculator {
 		return logEntriesWithSameWeek;
 	}
 
-	public List<LogEntry> getLogEntriesWithTheSameYear(int year) {
+	public List<LogEntry> getLogEntriesWithTheSameYear(int year) throws IOException {
 		List<LogEntry> logEntriesWithSameYear = new ArrayList<LogEntry>();
 
-		for (LogEntry logEntry : this.logEntries) {
+		for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
 			if (logEntry.getYear() == year) {
 				logEntriesWithSameYear.add(logEntry);
 			}
@@ -80,5 +84,8 @@ public class LogEntryCalculator {
 		return logEntriesWithSameYear;
 
 	}
+
+
+
 
 }
