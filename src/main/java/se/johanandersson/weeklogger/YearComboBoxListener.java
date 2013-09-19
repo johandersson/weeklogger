@@ -73,7 +73,7 @@ public class YearComboBoxListener implements ActionListener {
 		}
 		
 		try {
-			LogEntryWindow.getInstance().updateTotalTimeForCertainWeekLabel();
+			LogEntryWindow.getInstance().updateTotalTimeForCertainWeekAndYearLabel();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

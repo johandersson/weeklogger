@@ -54,7 +54,7 @@ public class WeekComboBoxListener implements ActionListener {
 
 	private void updateLabel() {
 		try {
-			LogEntryWindow.getInstance().updateTotalTimeForCertainWeekLabel();
+			LogEntryWindow.getInstance().updateTotalTimeForCertainWeekAndYearLabel();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -68,7 +68,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 		logEntryHandler.resetLogEntries();
 		updateTable();
 		updateTotalTimeLabel();
-		updateTotalTimeForCertainWeekLabel();
+		updateTotalTimeForCertainWeekAndYearLabel();
 		updateYearAndWeekSelectors();
 	}
 
@@ -219,7 +219,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 		totalTimeInfo = new JLabel("");
 		totalTimeForCertainWeek = new JLabel("");
 		updateTotalTimeLabel();
-		updateTotalTimeForCertainWeekLabel();
+		updateTotalTimeForCertainWeekAndYearLabel();
 		totalTimeInfoPanel.add(totalTimeInfo, "wrap");
 		totalTimeInfoPanel.add(totalTimeForCertainWeek);
 
@@ -232,7 +232,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 				+ totalTimeOfAllLogEntries.toString());
 	}
 
-	public void updateTotalTimeForCertainWeekLabel() throws IOException {
+	public void updateTotalTimeForCertainWeekAndYearLabel() throws IOException {
 		Integer selectedWeek = getSelectedWeek();
 		Integer selectedYear = getSelectedYear();
 
