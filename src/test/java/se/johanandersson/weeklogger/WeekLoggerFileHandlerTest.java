@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 import se.johanandersson.weeklogger.DateTimeUtils;
 import se.johanandersson.weeklogger.LogEntry;
 import se.johanandersson.weeklogger.LogEntryValidationException;
-import se.johanandersson.weeklogger.RandomDates;
 import se.johanandersson.weeklogger.Time;
 import se.johanandersson.weeklogger.ValidateLogEntry;
 import se.johanandersson.weeklogger.WeekLoggerFileHandler;
