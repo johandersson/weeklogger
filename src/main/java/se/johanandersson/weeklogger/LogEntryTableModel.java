@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 import org.joda.time.DateTime;
 
@@ -20,7 +21,6 @@ public class LogEntryTableModel extends AbstractTableModel {
 
 	public LogEntryTableModel(List<LogEntry> logEntryTable) {
 		this.setLogEntryTable(logEntryTable);
-
 	}
 
 	private String[] columnNames = { "Datum", "Vecka", "Från", "Till", "Total",
@@ -91,7 +91,5 @@ public class LogEntryTableModel extends AbstractTableModel {
 		Collections.sort(logEntryTable);
 		this.logEntryTable = logEntryTable;
 	}
-
-
 
 }

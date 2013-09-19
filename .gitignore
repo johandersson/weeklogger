@@ -13,8 +13,6 @@
 
 *.properties
 
-*.xml
-
 *.png
 
 .project
@@ -34,3 +32,5 @@
 *.js
 
 .swp
+
+*.xml

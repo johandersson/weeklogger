@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 
+
 public class YearComboBoxListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -69,6 +70,13 @@ public class YearComboBoxListener implements ActionListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		try {
+			LogEntryWindow.getInstance().updateTotalTimeForCertainWeekLabel();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}

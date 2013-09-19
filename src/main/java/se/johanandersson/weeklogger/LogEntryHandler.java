@@ -14,7 +14,6 @@ public class LogEntryHandler {
 
 	private List<LogEntry> logEntries;
 	private LogEntryCalculator logEntryCalc;
-	private LogEntryHandler logEntryHandler;
 
 	public LogEntryHandler() throws IOException {
 		logEntryCalc = new LogEntryCalculator(this);

@@ -66,14 +66,14 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
 	public void update() throws IOException {
 		logEntryHandler.resetLogEntries();
+		updateTable();
 		updateTotalTimeLabel();
 		updateTotalTimeForCertainWeekLabel();
-		updateTable();
 		updateYearAndWeekSelectors();
 	}
 
 	private LogEntryWindow() throws IOException {
-		
+
 		logEntryHandler = new LogEntryHandler();
 
 		setUpLogger();
@@ -195,21 +195,21 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 	}
 
 	private void updateYearAndWeekSelectors() throws IOException {
-		Object[] listOfWeeks = logEntryHandler.getListOfWeeks().toArray();
-		Object[] listOfYears = logEntryHandler.getListOfYears().toArray();
-		weekSelector.removeAllItems();
-		weekSelector.setModel(new DefaultComboBoxModel(listOfWeeks));
-		yearSelector.removeAllItems();
-		yearSelector.setModel(new DefaultComboBoxModel(listOfYears));
+		weekSelector.setModel(new DefaultComboBoxModel(logEntryHandler
+				.getListOfWeeks().toArray()));
+		yearSelector.setModel(new DefaultComboBoxModel(logEntryHandler
+				.getListOfYears().toArray()));
 	}
 
-	private void addWeeksToComboBox(LogEntryHandler logEntryHandler) throws IOException {
+	private void addWeeksToComboBox(LogEntryHandler logEntryHandler)
+			throws IOException {
 		Object[] listOfWeeks = logEntryHandler.getListOfWeeks().toArray();
 		weekSelector = new JComboBox(listOfWeeks);
 		weekAndYearSelectorPanel.add(weekSelector);
 	}
 
-	private void addYearsToComboBox(LogEntryHandler logEntryHandler) throws IOException {
+	private void addYearsToComboBox(LogEntryHandler logEntryHandler)
+			throws IOException {
 		Object[] listOfWeeks = logEntryHandler.getListOfYears().toArray();
 		yearSelector = new JComboBox(listOfWeeks);
 		weekAndYearSelectorPanel.add(yearSelector);
@@ -234,23 +234,23 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
 	public void updateTotalTimeForCertainWeekLabel() throws IOException {
 		Integer selectedWeek = getSelectedWeek();
+		Integer selectedYear = getSelectedYear();
 
-		if (selectedWeek != null) {
-
-			setTotalTimeForCertainWeekLabel(selectedWeek);
+		if (selectedWeek != null && selectedYear != null) {
+			setTotalTimeForCertainWeekLabel(selectedYear, selectedWeek);
 		}
 
 	}
 
-	private void setTotalTimeForCertainWeekLabel(Integer selectedWeek)
+	private void setTotalTimeForCertainWeekLabel(int year, int week)
 			throws IOException {
 
-		Time totalTimeOfLogEntriesForCertainWeek = logEntryHandler
-				.getTotalTimeOfLogEntriesForCertainWeek(selectedWeek);
+		Time totalTimeOfCertainWeek = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryHandler
+				.getLogEntriesWithSameYearAndWeek(year, week));
 
 		totalTimeForCertainWeek.setText("Total arbetad tid för vecka "
-				+ selectedWeek + ": "
-				+ totalTimeOfLogEntriesForCertainWeek.toString());
+				+ week + ", " + year +  ": "
+				+ totalTimeOfCertainWeek.toString());
 	}
 
 	private JScrollPane createLogEntryTable() throws IOException {
@@ -275,6 +275,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 		logEntryTable.setFillsViewportHeight(true);
 		logEntryTable.addMouseListener(new PopupListener());
 		logEntryTable.setSelectionMode(0);
+
 	}
 
 	private void setUpLogEntryTableModel() throws IOException {
@@ -282,6 +283,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 				.updateLogEntryTableBasedOnSelectedWeekAndYear();
 		logEntryTableModel = new LogEntryTableModel(
 				updateLogEntryTableBasedOnSelectedWeekAndYear);
+
 	}
 
 	private void deleteLogEntry() throws IOException,
@@ -289,7 +291,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 		int selectedRow = getSelectedLogEntryRow();
 		LogEntry selectedLogEntryFromTable = getSelectedLogEntryFromTable(selectedRow);
 		logEntryHandler.deleteLogEntry(selectedLogEntryFromTable);
-		
+
 		update();
 	}
 
@@ -297,6 +299,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 		List<LogEntry> updateLogEntryTableBasedOnSelectedWeekAndYear = this
 				.updateLogEntryTableBasedOnSelectedWeekAndYear();
 		updateLogEntryTableWithEntries(updateLogEntryTableBasedOnSelectedWeekAndYear);
+
 	}
 
 	private List<LogEntry> updateLogEntryTableBasedOnSelectedWeekAndYear()
@@ -306,12 +309,11 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 			if (filterByAllWeeks.isSelected()) {
 
 				updatedLogEntries = logEntryHandler
-						.getLogEntriesWithSameYear(this
-								.getSelectedYear());
+						.getLogEntriesWithSameYear(this.getSelectedYear());
 			} else {
 				updatedLogEntries = logEntryHandler
-						.getLogEntriesWithSameYearAndWeek(this.getSelectedYear(),
-								this.getSelectedWeek());
+						.getLogEntriesWithSameYearAndWeek(
+								this.getSelectedYear(), this.getSelectedWeek());
 			}
 
 		}
@@ -322,11 +324,18 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 	private boolean weekAndYearNotNull() {
 		Integer selectedWeek = this.getSelectedWeek();
 		int selectedYear = this.getSelectedYear();
-		return selectedWeek != null && selectedYear>0;
+		return selectedWeek != null && selectedYear > 0;
 	}
 
 	public void updateLogEntryTableWithEntries(List<LogEntry> logEntries) {
 		logEntryTableModel.setLogEntryTable(logEntries);
+		/*
+		 * Time calculateTotalTimeOfLogEntries = LogEntryCalculator
+		 * .calculateTotalTimeOfLogEntries
+		 * (logEntryTableModel.getLogEntryTable());
+		 * logEntryTable.getModel().setValueAt(calculateTotalTimeOfLogEntries,
+		 * logEntryTableModel.getRowCount(), 3);
+		 */
 		logEntryTableModel.fireTableDataChanged();
 	}
 

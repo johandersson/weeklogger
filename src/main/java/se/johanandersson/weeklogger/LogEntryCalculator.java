@@ -17,7 +17,7 @@ public class LogEntryCalculator {
 	}
 
 
-	public Time calculateTotalTimeOfLogEntries(List<LogEntry> logEntries) {
+	public static Time calculateTotalTimeOfLogEntries(List<LogEntry> logEntries) {
 		int sumOfAllSeconds = 0;
 		int sumOfAllMinutes = 0;
 		int sumOfAllHours = 0;
@@ -32,19 +32,19 @@ public class LogEntryCalculator {
 		return new Time(sumOfAllHours, sumOfAllMinutes, sumOfAllSeconds);
 	}
 
-	private int getSumOfAllHours(int sumOfAllHours, Time totalTime) {
+	private static int getSumOfAllHours(int sumOfAllHours, Time totalTime) {
 		int hours = totalTime.getHours();
 		sumOfAllHours += hours;
 		return sumOfAllHours;
 	}
 
-	private int getSumOfAllMinutes(int sumOfAllMinutes, Time totalTime) {
+	private static int getSumOfAllMinutes(int sumOfAllMinutes, Time totalTime) {
 		int minutes = totalTime.getMinutes();
 		sumOfAllMinutes += minutes;
 		return sumOfAllMinutes;
 	}
 
-	private int getSumOfAllSeconds(int sumOfAllSeconds, Time totalTime) {
+	private static int getSumOfAllSeconds(int sumOfAllSeconds, Time totalTime) {
 		int seconds = totalTime.getSeconds();
 		sumOfAllSeconds += seconds;
 		return sumOfAllSeconds;
