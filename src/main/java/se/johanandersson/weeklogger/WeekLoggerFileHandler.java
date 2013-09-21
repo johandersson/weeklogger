@@ -147,7 +147,7 @@ public class WeekLoggerFileHandler {
 	}
 
 	public boolean fileHasNoLogEntries() throws IOException {
-		return readAllLogEntriesFromFile().size()==0;
+		return readAllLogEntriesFromFile().isEmpty();
 	}
 
 }

@@ -2,7 +2,6 @@ package se.johanandersson.weeklogger;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LogEntryCalculator {
@@ -51,7 +50,7 @@ public class LogEntryCalculator {
 	}
 
 	public List<LogEntry> getLogEntriesWithTheSameYearAndWeek(int year, int week) throws IOException {
-		List<LogEntry> logEntriesWithSameYearAndWeek = new ArrayList<LogEntry>();
+		List<LogEntry> logEntriesWithSameYearAndWeek = new ArrayList<>();
 
 		for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
 			if (logEntry.getYear() == year
@@ -64,7 +63,7 @@ public class LogEntryCalculator {
 	}
 
 	public List<LogEntry> getLogEntriesWithTheSameWeek(int week) throws IOException {
-		List<LogEntry> logEntriesWithSameWeek = new ArrayList<LogEntry>();
+		List<LogEntry> logEntriesWithSameWeek = new ArrayList<>();
 		for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
 			if (logEntry.getWeek() == week)
 				logEntriesWithSameWeek.add(logEntry);
@@ -74,7 +73,7 @@ public class LogEntryCalculator {
 	}
 
 	public List<LogEntry> getLogEntriesWithTheSameYear(int year) throws IOException {
-		List<LogEntry> logEntriesWithSameYear = new ArrayList<LogEntry>();
+		List<LogEntry> logEntriesWithSameYear = new ArrayList<>();
 
 		for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
 			if (logEntry.getYear() == year) {

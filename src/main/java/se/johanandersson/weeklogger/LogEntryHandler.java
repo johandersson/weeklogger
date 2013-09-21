@@ -24,14 +24,14 @@ public class LogEntryHandler {
 	}
 
 	public Time getTotalTimeOfAllLogEntries() throws IOException {
-		return getLogEntryCalc().calculateTotalTimeOfLogEntries(this.getLogEntries());
+		return LogEntryCalculator.calculateTotalTimeOfLogEntries(this.getLogEntries());
 	}
 
 	public Time getTotalTimeOfLogEntriesForCertainWeek(int week)
 			throws IOException {
 
 		List<LogEntry> entriesWithSameWeek = readEntriesWithSameWeekFromFile(week);
-		Time totalTimeOfLogEntries = getLogEntryCalc()
+		Time totalTimeOfLogEntries = LogEntryCalculator
 				.calculateTotalTimeOfLogEntries(entriesWithSameWeek);
 
 		if (totalTimeOfLogEntries == null)
@@ -46,7 +46,7 @@ public class LogEntryHandler {
 	}
 
 	public List<Integer> getListOfWeeks() throws IOException {
-		List<Integer> listOfWeeks = new ArrayList<Integer>();
+		List<Integer> listOfWeeks = new ArrayList<>();
 
 		for (LogEntry logEntry : this.getLogEntries()) {
 			int week = logEntry.getWeek();
@@ -82,7 +82,7 @@ public class LogEntryHandler {
 	}
 
 	public List<Integer> getListOfYears() throws IOException {
-		List<Integer> listOfWeeks = new ArrayList<Integer>();
+		List<Integer> listOfWeeks = new ArrayList<>();
 
 		for (LogEntry logEntry : this.getLogEntries()) {
 			int year = logEntry.getYear();

@@ -1,13 +1,8 @@
 package se.johanandersson.weeklogger;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
-import org.joda.time.DateTime;
 
 @SuppressWarnings("serial")
 /**
@@ -26,10 +21,12 @@ public class LogEntryTableModel extends AbstractTableModel {
 	private String[] columnNames = { "Datum", "Vecka", "Från", "Till", "Total",
 			"Kommentar" };
 
+        @Override
 	public int getColumnCount() {
 		return columnNames.length;
 	}
 
+        @Override
 	public int getRowCount() {
 		if (getLogEntryTable() != null) {
 			return getLogEntryTable().size();
@@ -37,10 +34,12 @@ public class LogEntryTableModel extends AbstractTableModel {
 			return 0;
 	}
 
+        @Override
 	public String getColumnName(int col) {
 		return columnNames[col];
 	}
 
+        @Override
 	public String getValueAt(int row, int col) {
 		String logEntryObjectToReturn;
 		switch (col) {

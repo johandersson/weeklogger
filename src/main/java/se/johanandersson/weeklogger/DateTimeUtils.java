@@ -1,12 +1,9 @@
 package se.johanandersson.weeklogger;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -19,7 +16,7 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public class DateTimeUtils {
 
-	public static DateTime dt;
+	protected static DateTime dt;
 
 	public static int getCurrentWeek() {
 		DateTime dt = new DateTime();

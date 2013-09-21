@@ -25,7 +25,6 @@ public class RadioButtonListener implements ActionListener {
 		JRadioButton filterByCertainWeekSelected = null;
 		try {
 			weekSelector = LogEntryWindow.getInstance().getWeekSelector();
-			JComboBox yearSelector = LogEntryWindow.getInstance().getYearSelector();
 			filterByAllWeeks = LogEntryWindow.getInstance().getFilterByAllWeeks();
 			filterByCertainWeekSelected = LogEntryWindow.getInstance().getFilterByCertainWeekSelected();
 		} catch (IOException e2) {
