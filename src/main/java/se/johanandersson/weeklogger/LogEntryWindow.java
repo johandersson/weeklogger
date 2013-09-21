@@ -50,8 +50,8 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private JLabel totalTimeLabel;
     private LogEntryTableModel logEntryTableModel;
     private JTable logEntryTable;
-    private JRadioButton filterByAllWeeks;
-    private JRadioButton filterByCertainWeekSelected;
+    private JRadioButton filterByAllWeeksInTheSelectedYear;
+    private JRadioButton filterByCertainWeekTheSelectedYear;
     private ButtonGroup fiterWeeksRadioButtonGroup;
     private JPopupMenu popup;
     private JMenuItem deleteLogEntry;
@@ -66,7 +66,6 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     public void update() throws IOException {
         logEntryHandler.resetLogEntries();
         updateTable();
-        updateTotalTimeLabel();
         updateTotalTimeLabel();
         updateYearAndWeekSelectors();
     }
@@ -114,16 +113,16 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private void setUpLogger() {
         logger = Logger.getLogger(LogEntryWindow.class);
         BasicConfigurator.configure();
-        logger.removeAllAppenders();
-        logger.info("Created LogEntryWindow");
+        getLogger().removeAllAppenders();
+        getLogger().info("Created LogEntryWindow");
     }
 
     protected JRadioButton getFilterByAllWeeks() {
-        return filterByAllWeeks;
+        return filterByAllWeeksInTheSelectedYear;
     }
 
     protected JRadioButton getFilterByCertainWeekSelected() {
-        return filterByCertainWeekSelected;
+        return filterByCertainWeekTheSelectedYear;
     }
 
     public JComboBox getWeekSelector() {
@@ -158,19 +157,19 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
     private void buildRadioButtonGroup() throws IOException {
         fiterWeeksRadioButtonGroup = new ButtonGroup();
-        filterByAllWeeks = new JRadioButton("Alla veckor", true);
-        filterByCertainWeekSelected = new JRadioButton("Välj viss vecka");
-        filterByAllWeeks.setMnemonic(KeyEvent.VK_A);
-        filterByCertainWeekSelected.setMnemonic(KeyEvent.VK_V);
+        filterByAllWeeksInTheSelectedYear = new JRadioButton("Alla veckor", true);
+        filterByCertainWeekTheSelectedYear = new JRadioButton("Välj viss vecka");
+        filterByAllWeeksInTheSelectedYear.setMnemonic(KeyEvent.VK_A);
+        filterByCertainWeekTheSelectedYear.setMnemonic(KeyEvent.VK_V);
 
-        fiterWeeksRadioButtonGroup.add(filterByAllWeeks);
-        fiterWeeksRadioButtonGroup.add(filterByCertainWeekSelected);
-        weekAndYearSelectorPanel.add(filterByAllWeeks, "wrap");
-        weekAndYearSelectorPanel.add(filterByCertainWeekSelected);
+        fiterWeeksRadioButtonGroup.add(filterByAllWeeksInTheSelectedYear);
+        fiterWeeksRadioButtonGroup.add(filterByCertainWeekTheSelectedYear);
+        weekAndYearSelectorPanel.add(filterByAllWeeksInTheSelectedYear, "wrap");
+        weekAndYearSelectorPanel.add(filterByCertainWeekTheSelectedYear);
 
         RadioButtonListener filterWeeksRadioButtonListener = new RadioButtonListener();
-        filterByAllWeeks.addActionListener(filterWeeksRadioButtonListener);
-        filterByCertainWeekSelected
+        filterByAllWeeksInTheSelectedYear.addActionListener(filterWeeksRadioButtonListener);
+        filterByCertainWeekTheSelectedYear
                 .addActionListener(filterWeeksRadioButtonListener);
 
     }
@@ -222,16 +221,18 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     public void updateTotalTimeLabel() throws IOException {
-        Integer selectedWeek = getSelectedWeek();
         Integer selectedYear = getSelectedYear();
+        Integer selectedWeek = getSelectedWeek();
 
-        if (selectedWeek != null) {
-            setTotalTimeForCertainWeekLabel(selectedYear, selectedWeek);
+        if (filterByAllWeeksInTheSelectedYear.isSelected()) {
+            setTotalTimeLabelBasedOnYear(selectedYear);
+        } else {
+            setTotalTimeLabelBasedOnWeekAndYear(selectedYear, selectedWeek);
         }
 
     }
 
-    private void setTotalTimeForCertainWeekLabel(int year, int week)
+    protected void setTotalTimeLabelBasedOnWeekAndYear(int year, int week)
             throws IOException {
 
         Time totalTimeOfCertainWeek = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryHandler
@@ -239,6 +240,17 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
         totalTimeLabel.setText("Total arbetad tid för vecka "
                 + week + ", " + year + ": "
+                + totalTimeOfCertainWeek.toString());
+    }
+
+    protected void setTotalTimeLabelBasedOnYear(int year)
+            throws IOException {
+
+        Time totalTimeOfCertainWeek = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryHandler
+                .getLogEntriesWithSameYear(year));
+
+        totalTimeLabel.setText("Total arbetad tid för alla veckor "
+                + year + ": "
                 + totalTimeOfCertainWeek.toString());
     }
 
@@ -295,8 +307,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
             throws IOException {
         List<LogEntry> updatedLogEntries = logEntryHandler.getLogEntries();
         if (weekAndYearNotNull()) {
-            if (filterByAllWeeks.isSelected()) {
-
+            if (filterByAllWeeksInTheSelectedYear.isSelected()) {
                 updatedLogEntries = logEntryHandler
                         .getLogEntriesWithSameYear(this.getSelectedYear());
             } else {
@@ -345,7 +356,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
                 try {
                     tryToDeleteLogEntry();
                 } catch (LogEntryValidationException e1) {
-                    logger.info("Could not validate deleted logentry!");
+                    getLogger().info("Could not validate deleted logentry!");
                 }
             }
         }
@@ -356,7 +367,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         try {
             deleteLogEntry();
         } catch (IOException e1) {
-            logger.info("Could not delete logentry!");
+            getLogger().info("Could not delete logentry!");
         }
     }
 
@@ -374,6 +385,13 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         } else {
             return DateTimeUtils.getCurrentYear();
         }
+    }
+
+    /**
+     * @return the logger
+     */
+    public Logger getLogger() {
+        return logger;
     }
 
     private static class LogEntryTableSelectionListener implements

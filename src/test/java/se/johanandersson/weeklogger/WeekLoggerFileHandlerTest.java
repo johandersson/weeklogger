@@ -40,7 +40,6 @@ public class WeekLoggerFileHandlerTest {
 	public void createOrReadWeekLoggerFile() throws IOException {
 		WeekLoggerFileHandler.getInstance().createOrReadWeekLoggerFile();
 		Assert.assertNotNull(WeekLoggerFileHandler.getInstance().getOutputStream());
-		
 	}
 
 
