@@ -9,8 +9,12 @@ import se.johanandersson.weeklogger.LogEntry;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import se.johanandersson.weeklogger.LogEntryCalculator;
+import se.johanandersson.weeklogger.Time;
 
 public class PDFHandler {
 
@@ -56,7 +60,8 @@ public class PDFHandler {
         for (LogEntry logEntry : logEntryList) {
             addLogEntryToCurrentTable(logEntry);
         }
-
+        
+        addTotalTime(logEntryList);
         appendTableToDocument(currentTable);
     }
 
@@ -84,5 +89,14 @@ public class PDFHandler {
     public void closeDocument() {
         document.close();
 
+    }
+
+    private void addTotalTime(List<LogEntry> logEntryList) {
+        final Time totalTime = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryList);
+        String totalTimeHeader = "Total tid: ";
+        final String totalTimeText = totalTimeHeader + totalTime.toString();
+        PdfPCell c1 = new PdfPCell(new Phrase(totalTimeText));
+        c1.setColspan(6);
+        currentTable.addCell(c1);
     }
 }
