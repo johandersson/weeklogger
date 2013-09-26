@@ -95,8 +95,8 @@ public class PDFHandler {
         final Time totalTime = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryList);
         String totalTimeHeader = "Total tid: ";
         final String totalTimeText = totalTimeHeader + totalTime.toString();
-        PdfPCell c1 = new PdfPCell(new Phrase(totalTimeText));
-        c1.setColspan(6);
-        currentTable.addCell(c1);
+        PdfPCell totalTimeCell = new PdfPCell(new Phrase(totalTimeText));
+        totalTimeCell.setColspan(6);
+        currentTable.addCell(totalTimeCell);
     }
 }
