@@ -34,3 +34,11 @@
 .swp
 
 *.xml
+
+*.exec
+
+*.csv
+
+target/test-classes/.netbeans_automatic_build
+
+target/weeklogger-0.0.1-SNAPSHOT.jar
