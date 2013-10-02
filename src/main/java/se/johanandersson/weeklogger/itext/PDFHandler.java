@@ -9,6 +9,8 @@ import se.johanandersson.weeklogger.LogEntry;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -22,6 +24,8 @@ public class PDFHandler {
     private static final String FILE_NAME = "report.pdf";
     private Document document = new Document();
     private PdfPTable currentTable = new PdfPTable(NUMBER_OF_COLUMNS);
+    private static Font headerFont = new Font(Font.FontFamily.HELVETICA, 12,
+            Font.BOLD);
 
     public String getFileName() {
         return FILE_NAME;
@@ -55,12 +59,13 @@ public class PDFHandler {
     }
 
     public void createTableForCertainWeek(List<LogEntry> logEntryList) throws DocumentException {
+        createTableHeader();
         Collections.sort(logEntryList);
 
         for (LogEntry logEntry : logEntryList) {
             addLogEntryToCurrentTable(logEntry);
         }
-        
+
         addTotalTime(logEntryList);
         appendTableToDocument(currentTable);
     }
@@ -70,7 +75,8 @@ public class PDFHandler {
     }
 
     private void addLogEntryToCurrentTable(LogEntry logEntry) {
-        currentTable.addCell("Vecka " + String.valueOf(logEntry.getWeek()));
+        final String week = String.valueOf(logEntry.getWeek());
+        currentTable.addCell(week);
         currentTable.addCell(logEntry.getLogDate());
         currentTable.addCell(logEntry.getStartTime());
         currentTable.addCell(logEntry.getStopTime());
@@ -98,5 +104,14 @@ public class PDFHandler {
         PdfPCell totalTimeCell = new PdfPCell(new Phrase(totalTimeText));
         totalTimeCell.setColspan(6);
         currentTable.addCell(totalTimeCell);
+    }
+
+    private void createTableHeader() {
+        currentTable.addCell(new Paragraph("Vecka", headerFont));
+        currentTable.addCell(new Paragraph("Datum", headerFont));
+        currentTable.addCell(new Paragraph("Start", headerFont));
+        currentTable.addCell(new Paragraph("Slut",headerFont));
+        currentTable.addCell(new Paragraph("Totaltid",headerFont));
+        currentTable.addCell(new Paragraph("Kommentar",headerFont));
     }
 }

@@ -31,7 +31,6 @@ public class GenerateReportButtonListener implements ActionListener {
             e1.printStackTrace();
         }
 
-        List<LogEntry> readAllLogEntriesFromFile;
         try {
             if (!WeekLoggerFileHandler.getInstance().fileHasNoLogEntries()) {
                 List<LogEntry> logEntries = LogEntryWindow.getInstance().getLogEntryTableModel();
