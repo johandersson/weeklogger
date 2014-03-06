@@ -59,7 +59,36 @@
                     </execution>
                 </executions>
             </plugin>
+            
+             <!-- the assembly for this project -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/config.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            <!-- configure the manifest -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>se.johanandersson.weeklogger.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            
+              
         </plugins>
+        
+      
              
 
 
