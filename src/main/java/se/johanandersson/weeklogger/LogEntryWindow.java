@@ -205,6 +205,10 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         weekSelector = new JComboBox(listOfWeeks);
         weekAndYearSelectorPanel.add(weekSelector);
     }
+    
+    protected void updateWeeks(List<Integer> weeks){
+        weekSelector.setModel(new DefaultComboBoxModel(weeks.toArray()));
+    }
 
     private void addYearsToComboBox(LogEntryHandler logEntryHandler)
             throws IOException {

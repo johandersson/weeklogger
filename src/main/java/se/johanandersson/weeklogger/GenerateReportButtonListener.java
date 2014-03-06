@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import se.johanandersson.weeklogger.itext.PDFHandler;
+import se.johanandersson.weeklogger.itext.PDFCreator;
 
 
 
@@ -19,11 +19,11 @@ import com.itextpdf.text.DocumentException;
 
 public class GenerateReportButtonListener implements ActionListener {
 
-    private File pdfFile;
+   
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        PDFHandler pdf = new PDFHandler();
+        PDFCreator pdf = new PDFCreator();
         try {
             pdf.createFile();
             pdf.openDocument();
@@ -36,7 +36,8 @@ public class GenerateReportButtonListener implements ActionListener {
                 List<LogEntry> logEntries = LogEntryWindow.getInstance().getLogEntryTableModel();
                 pdf.createTableForCertainWeek(logEntries);
                 pdf.closeDocument();
-                openPDFWithInstalledReader(pdf);
+                PDFOpener pdfOpener = new PDFOpener();
+                pdfOpener.openPDFWithInstalledReader(pdf);
             } else {
                 JOptionPane.showMessageDialog(WeekLoggerWindow.getInstance(), "Det finns inga loggade tider att skapa en rapport av!");
             }
@@ -49,31 +50,7 @@ public class GenerateReportButtonListener implements ActionListener {
 
     }
 
-    private void openPDFWithInstalledReader(PDFHandler pdf)
-            throws HeadlessException, IOException, LogEntryValidationException {
-        if (Desktop.isDesktopSupported()) {
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.OPEN)) {
-                openPdfFile(pdf, desktop);
-            }
-        } else {
-            JOptionPane
-                    .showMessageDialog(
-                    WeekLoggerWindow.getInstance(),
-                    "Stöd sakas för att öppna pdf-filen direkt i förvalt program. Försök att öppna filen manuellt från: "
-                    + pdfFile.getAbsolutePath());
-        }
-    }
+    
 
-    private void openPdfFile(PDFHandler pdf, Desktop desktop)
-            throws IOException, LogEntryValidationException {
-        pdfFile = new File(pdf.getFileName()); // path to pdf file
-        try {
-            desktop.open(pdfFile);
-        } catch (IOException e) {
-            JOptionPane
-                    .showMessageDialog(WeekLoggerWindow.getInstance(),
-                    "Kunde inte öppna pdf-fil. Se till att du har en pdf-läsare installerad.");
-        }
-    }
+    
 }

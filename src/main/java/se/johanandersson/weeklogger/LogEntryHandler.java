@@ -57,6 +57,18 @@ public class LogEntryHandler {
 		Collections.sort(listOfWeeks);
 		return listOfWeeks;
 	}
+        
+        public List<Integer> getListOfWeeksInAYear(int year) throws IOException {
+		List<Integer> listOfWeeks = new ArrayList<>();
+
+		for (LogEntry logEntry : this.getLogEntries()) {
+			if (logEntry.getYear()==year && !listOfWeeks.contains(logEntry.getWeek()))
+				listOfWeeks.add(logEntry.getWeek());
+		}
+
+		Collections.sort(listOfWeeks);
+		return listOfWeeks;
+	}
 
 	public List<LogEntry> getLogEntries() throws IOException {
 		if (logEntries == null)
@@ -93,6 +105,8 @@ public class LogEntryHandler {
 		Collections.sort(listOfWeeks);
 		return listOfWeeks;
 	}
+        
+       
 
 	public List<LogEntry> getLogEntriesWithSameYear(int year)
 			throws IOException {

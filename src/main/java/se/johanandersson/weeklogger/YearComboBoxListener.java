@@ -20,6 +20,7 @@ public class YearComboBoxListener implements ActionListener {
         try {
             selectedYear = LogEntryWindow.getInstance().getSelectedYear();
             week = LogEntryWindow.getInstance().getSelectedWeek();
+
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -31,14 +32,13 @@ public class YearComboBoxListener implements ActionListener {
                 filteredLogEntries = LogEntryWindow.getInstance()
                         .getLogEntryHandler()
                         .getLogEntriesWithSameYearAndWeek(selectedYear, week);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            try {
                 LogEntryWindow.getInstance().updateLogEntryTableWithEntries(
                         filteredLogEntries);
+                final List<Integer> listOfWeeksInAYear = LogEntryWindow.getInstance()
+                        .getLogEntryHandler().getListOfWeeksInAYear(selectedYear);
+                
+                LogEntryWindow.getInstance().updateWeeks(listOfWeeksInAYear);
+                
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

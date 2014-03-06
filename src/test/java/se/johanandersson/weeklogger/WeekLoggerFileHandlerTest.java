@@ -6,25 +6,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Random;
-
-import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import se.johanandersson.weeklogger.DateTimeUtils;
-import se.johanandersson.weeklogger.LogEntry;
-import se.johanandersson.weeklogger.LogEntryValidationException;
-import se.johanandersson.weeklogger.Time;
-import se.johanandersson.weeklogger.ValidateLogEntry;
-import se.johanandersson.weeklogger.WeekLoggerFileHandler;
 
 public class WeekLoggerFileHandlerTest {
-	private static final int NUMBER_OF_LINES_IN_TESTFILE = 5000;
+	private static final int NUMBER_OF_LINES_IN_TESTFILE = 300;
 
 	@BeforeSuite
 	public void removeFile() {
