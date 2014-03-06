@@ -5,18 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.omg.CORBA.CTX_RESTRICT_SCOPE;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import se.johanandersson.weeklogger.DateTimeUtils;
-import se.johanandersson.weeklogger.LogEntry;
-import se.johanandersson.weeklogger.LogEntryValidationException;
-import se.johanandersson.weeklogger.Time;
-import se.johanandersson.weeklogger.ValidateLogEntry;
-import se.johanandersson.weeklogger.WeekLoggerFileHandler;
-import se.johanandersson.weeklogger.WeekLoggerWindow;
 
 public class LogEntryValidationTest {
 	

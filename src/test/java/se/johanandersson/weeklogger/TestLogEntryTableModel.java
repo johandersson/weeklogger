@@ -6,11 +6,6 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import se.johanandersson.weeklogger.DateTimeUtils;
-import se.johanandersson.weeklogger.LogEntry;
-import se.johanandersson.weeklogger.LogEntryTableModel;
-import se.johanandersson.weeklogger.LogEntryValidationException;
-import se.johanandersson.weeklogger.Time;
 
 public class TestLogEntryTableModel {
   @Test

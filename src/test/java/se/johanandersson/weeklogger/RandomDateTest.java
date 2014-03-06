@@ -1,17 +1,8 @@
 package se.johanandersson.weeklogger;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Random;
 
 import junit.framework.Assert;
 
-import org.joda.time.DateTime;
-import org.joda.time.Hours;
-import org.joda.time.Minutes;
-import org.joda.time.Seconds;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.testng.annotations.Test;
 
 public class RandomDateTest {

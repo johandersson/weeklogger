@@ -2,9 +2,9 @@ package se.johanandersson.weeklogger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
-import junit.framework.Assert;
+import org.testng.Assert;
 
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -32,6 +32,15 @@ public class LogEntryCalculatorTest {
 		Assert.assertEquals(t1, logCalc.calculateTotalTimeOfLogEntries(genTestLogEntries()));
 
 	}
+        
+        @Test
+        public void foo() throws LogEntryValidationException{
+            final List<LogEntry> genTestLogEntries = genTestLogEntries();
+            
+
+            
+      
+        }
 	
 	@Test
 	public void testGetLogEntriesWithSameWeekAndYear() throws LogEntryValidationException, IOException{
