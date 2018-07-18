@@ -6,6 +6,9 @@ Copyright: Johan Andersson, johanbkandersson@gmail.com
 	
 Texts in the program is currently only in swedish
 
+Build with: 
+mvn install
+mvn clean compile assembly:single
 License: GPL v3
 ---------------------------------------------------------------
 This program is free software: you can redistribute it and/or modify
