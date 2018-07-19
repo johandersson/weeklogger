@@ -62,6 +62,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private Logger logger;
     private JScrollPane logEntryTableScrollPane;
     private LogEntryHandler logEntryHandler;
+	private ListSelectionModel listSelectionModel;
 
     public void update() throws IOException {
         logEntryHandler.resetLogEntries();
@@ -84,6 +85,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         addGenereateReportButton();
 
         buildRadioButtonGroup();
+
         addWeekAndYearSelectorPanel();
 
         this.add(weekAndYearSelectorPanel);
@@ -91,7 +93,10 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         this.add(totalTimeInfoPanel);
 
         logEntryTableScrollPane = createLogEntryTable();
-
+		listSelectionModel = logEntryTable.getSelectionModel();
+		 listSelectionModel.setSelectionMode(
+                        ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+  
         this.add(logEntryTableScrollPane);
         this.add(generateReportButtonPanel);
 
@@ -293,9 +298,12 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
     private void deleteLogEntry() throws IOException,
             LogEntryValidationException {
-        int selectedRow = getSelectedLogEntryRow();
-        LogEntry selectedLogEntryFromTable = getSelectedLogEntryFromTable(selectedRow);
-        logEntryHandler.deleteLogEntry(selectedLogEntryFromTable);
+        int[] selectedRows = getSelectedLogEntryRow();
+		LogEntry selectedLogEntryFromTable=null;
+		for(int i=0;i<selectedRows.length;i++){
+			selectedLogEntryFromTable = getSelectedLogEntryFromTable(selectedRows[i]);
+			logEntryHandler.deleteLogEntry(selectedLogEntryFromTable);
+		}
 
         update();
     }
@@ -336,13 +344,9 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         logEntryTableModel.fireTableDataChanged();
     }
 
-    public int getSelectedLogEntryRow() {
-        int viewRow = logEntryTable.getSelectedRow();
-        if (viewRow < 0) {
-            return 0;
-        } else {
-            return viewRow;
-        }
+    public int[] getSelectedLogEntryRow() {
+        int[] viewRows = logEntryTable.getSelectedRows();
+        return viewRows;
     }
 
     public LogEntry getSelectedLogEntryFromTable(int index) {
@@ -413,4 +417,5 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     public LogEntryHandler getLogEntryHandler() {
         return this.logEntryHandler;
     }
+	
 }
