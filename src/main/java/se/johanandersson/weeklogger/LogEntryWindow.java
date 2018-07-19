@@ -359,7 +359,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == deleteLogEntry) {
             int answer = JOptionPane.showConfirmDialog(this,
-                    "Vill du ta bort raden?");
+                    "Vill du ta bort "+ getSelectedLogEntryRows().length+ " rad(er)?");
             if (answer == 0) {
                 try {
                     tryToDeleteLogEntry();
