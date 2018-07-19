@@ -298,7 +298,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
     private void deleteLogEntry() throws IOException,
             LogEntryValidationException {
-        int[] selectedRows = getSelectedLogEntryRow();
+        int[] selectedRows = getSelectedLogEntryRows();
 		LogEntry selectedLogEntryFromTable=null;
 		for(int i=0;i<selectedRows.length;i++){
 			selectedLogEntryFromTable = getSelectedLogEntryFromTable(selectedRows[i]);
@@ -344,7 +344,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         logEntryTableModel.fireTableDataChanged();
     }
 
-    public int[] getSelectedLogEntryRow() {
+    public int[] getSelectedLogEntryRows() {
         int[] viewRows = logEntryTable.getSelectedRows();
         return viewRows;
     }

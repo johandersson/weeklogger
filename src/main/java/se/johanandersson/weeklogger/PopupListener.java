@@ -30,7 +30,8 @@ public class PopupListener extends MouseAdapter {
 	private void maybeShowPopup(MouseEvent e) {
 		try {
 			JTable logEntryTable = LogEntryWindow.getInstance().getLogEntryTable();
-			if (e.isPopupTrigger() && logEntryTable.getRowCount()>0) {
+			int selectedNumberOfRows = LogEntryWindow.getInstance().getSelectedLogEntryRows().length;
+			if (e.isPopupTrigger() && logEntryTable.getRowCount()>0 && selectedNumberOfRows>0) {
 				JPopupMenu popup = LogEntryWindow.getInstance().getPopup();
 				popup.show(e.getComponent(), e.getX(), e.getY());
 				
