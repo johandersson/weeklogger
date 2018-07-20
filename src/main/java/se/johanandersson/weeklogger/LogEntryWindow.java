@@ -47,6 +47,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private JComboBox weekSelector;
     private JComboBox yearSelector;
     private JButton generateReportButton;
+	private JButton saveButton;
     private JLabel totalTimeLabel;
     private LogEntryTableModel logEntryTableModel;
     private JTable logEntryTable;
@@ -83,7 +84,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         generateReportButtonPanel = new JPanel(new MigLayout());
 
         addGenereateReportButton();
-
+        addSaveButton();
         buildRadioButtonGroup();
 
         addWeekAndYearSelectorPanel();
@@ -113,6 +114,13 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         generateReportButton
                 .addActionListener(new GenerateReportButtonListener());
         generateReportButtonPanel.add(generateReportButton);
+    }
+	
+	private void addSaveButton() {
+        saveButton = new JButton("Spara");
+        saveButton
+                .addActionListener(new SaveButtonListener());
+        generateReportButtonPanel.add(saveButton);
     }
 
     private void setUpLogger() {

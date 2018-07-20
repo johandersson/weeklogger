@@ -90,5 +90,18 @@ public class LogEntryTableModel extends AbstractTableModel {
 		Collections.sort(logEntryTable);
 		this.logEntryTable = logEntryTable;
 	}
+	
+	public boolean isCellEditable(int row, int col) {
+        if (col == 5) {//comment
+            return true;
+        } else {
+            return false;
+        }
+    }
+	
+	public void setValueAt(Object value, int row, int col) {
+        getSelectedRowEntry(row).setComment(value.toString());
+        fireTableCellUpdated(row, col);
+    }
 
 }
