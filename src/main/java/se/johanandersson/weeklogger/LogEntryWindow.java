@@ -120,7 +120,12 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         saveButton = new JButton("Spara");
         saveButton
                 .addActionListener(new SaveButtonListener());
+				saveButton.setEnabled(false);
         generateReportButtonPanel.add(saveButton);
+    }
+	
+	protected JButton getSaveButton() {
+        return this.saveButton;
     }
 
     private void setUpLogger() {
