@@ -2,6 +2,7 @@ package se.johanandersson.weeklogger.itext;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import se.johanandersson.weeklogger.LogEntryCalculator;
+import se.johanandersson.weeklogger.LogEntryHandler;
 import se.johanandersson.weeklogger.Time;
 
 public class PDFCreator {
@@ -23,7 +25,7 @@ public class PDFCreator {
     private static final int NUMBER_OF_COLUMNS = 6;
     private static final String FILE_NAME = "report.pdf";
     private Document document = new Document();
-    private PdfPTable currentTable = new PdfPTable(NUMBER_OF_COLUMNS);
+    //private PdfPTable currentTable = new PdfPTable(NUMBER_OF_COLUMNS);
     private static Font headerFont = new Font(Font.FontFamily.HELVETICA, 12,
             Font.BOLD);
 
@@ -58,60 +60,65 @@ public class PDFCreator {
 
     }
 
-    public void createTableForCertainWeek(List<LogEntry> logEntryList) throws DocumentException {
-        createTableHeader();
-        Collections.sort(logEntryList);
+    public void createTables(List<Integer> listOfWeeks, int year) throws DocumentException, IOException {
 
-        for (LogEntry logEntry : logEntryList) {
-            addLogEntryToCurrentTable(logEntry);
+        LogEntryHandler logEntryHandler = new LogEntryHandler();
+
+
+        for (Integer w : listOfWeeks) {
+
+            List<LogEntry> logEntriesWithSameYearAndWeek = logEntryHandler.getLogEntriesWithSameYearAndWeek(year, w);
+            addLogEntryToCurrentTable(logEntriesWithSameYearAndWeek, w);
         }
 
-        addTotalTime(logEntryList);
-        appendTableToDocument(currentTable);
     }
 
     private void appendTableToDocument(PdfPTable table) throws DocumentException {
         document.add(table);
     }
 
-    private void addLogEntryToCurrentTable(LogEntry logEntry) {
-        final String week = String.valueOf(logEntry.getWeek());
-        currentTable.addCell(week);
-        currentTable.addCell(logEntry.getLogDate());
-        currentTable.addCell(logEntry.getStartTime());
-        currentTable.addCell(logEntry.getStopTime());
-        currentTable.addCell(logEntry.getTotalTime().toString());
-        currentTable.addCell(logEntry.getComment());
+    private void addLogEntryToCurrentTable(List<LogEntry> logEntries, Integer w) throws DocumentException {
+        PdfPTable table = new PdfPTable(NUMBER_OF_COLUMNS);
+        table.setSpacingAfter(10);
+        createTableHeader(table);
+        for(LogEntry logEntry: logEntries){
+            String week = String.valueOf(logEntry.getWeek());
+            table.addCell(week);
+            table.addCell(logEntry.getLogDate());
+            table.addCell(logEntry.getStartTime());
+            table.addCell(logEntry.getStopTime());
+            table.addCell(logEntry.getTotalTime().toString());
+            table.addCell(logEntry.getComment());
+        }
+        addTotalTime(logEntries, table, w);
+        appendTableToDocument(table);
     }
 
     public void openDocument() {
         document.open();
     }
 
-    public PdfPTable getTable() {
-        return currentTable;
-    }
 
     public void closeDocument() {
         document.close();
 
     }
 
-    private void addTotalTime(List<LogEntry> logEntryList) {
+    private void addTotalTime(List<LogEntry> logEntryList, PdfPTable table, Integer w) {
         final Time totalTime = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryList);
-        String totalTimeHeader = "Total tid: ";
+        String totalTimeHeader = "Total tid vecka " +w+":";
         final String totalTimeText = totalTimeHeader + totalTime.toString();
         PdfPCell totalTimeCell = new PdfPCell(new Phrase(totalTimeText));
         totalTimeCell.setColspan(6);
-        currentTable.addCell(totalTimeCell);
+        table.addCell(totalTimeCell);
     }
 
-    private void createTableHeader() {
-        currentTable.addCell(new Paragraph("Vecka", headerFont));
-        currentTable.addCell(new Paragraph("Datum", headerFont));
-        currentTable.addCell(new Paragraph("Start", headerFont));
-        currentTable.addCell(new Paragraph("Slut",headerFont));
-        currentTable.addCell(new Paragraph("Totaltid",headerFont));
-        currentTable.addCell(new Paragraph("Kommentar",headerFont));
+    private void createTableHeader(PdfPTable table) {
+        table.addCell(new Paragraph("Vecka", headerFont));
+        table.addCell(new Paragraph("Datum", headerFont));
+        table.addCell(new Paragraph("Start", headerFont));
+        table.addCell(new Paragraph("Slut",headerFont));
+        table.addCell(new Paragraph("Totaltid",headerFont));
+        table.addCell(new Paragraph("Kommentar",headerFont));
     }
 }

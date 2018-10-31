@@ -1,10 +1,8 @@
 package se.johanandersson.weeklogger;
 
-import java.awt.Desktop;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -34,7 +32,10 @@ public class GenerateReportButtonListener implements ActionListener {
         try {
             if (!WeekLoggerFileHandler.getInstance().fileHasNoLogEntries()) {
                 List<LogEntry> logEntries = LogEntryWindow.getInstance().getLogEntryTableModel();
-                pdf.createTableForCertainWeek(logEntries);
+                LogEntryHandler logEntryHandler = new LogEntryHandler();
+                int selectedYear = LogEntryWindow.getInstance().getSelectedYear();
+                List<Integer> listOfWeeksInAYear = logEntryHandler.getListOfWeeksInAYear(selectedYear);
+                pdf.createTables(listOfWeeksInAYear, selectedYear);
                 pdf.closeDocument();
                 PDFOpener pdfOpener = new PDFOpener();
                 pdfOpener.openPDFWithInstalledReader(pdf);
