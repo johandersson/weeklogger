@@ -80,6 +80,7 @@ public class PDFCreator {
     private void addLogEntryToCurrentTable(List<LogEntry> logEntries, Integer w) throws DocumentException {
         PdfPTable table = new PdfPTable(NUMBER_OF_COLUMNS);
         table.setSpacingAfter(10);
+        table.setKeepTogether(true);
         createTableHeader(table);
         for(LogEntry logEntry: logEntries){
             String week = String.valueOf(logEntry.getWeek());
