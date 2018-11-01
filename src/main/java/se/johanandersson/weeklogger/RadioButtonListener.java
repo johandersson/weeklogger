@@ -57,6 +57,7 @@ public class RadioButtonListener implements ActionListener {
                 List<LogEntry> logEntries = logEntryHandler.getLogEntriesWithSameYearAndWeek(year, week);
                 LogEntryWindow.getInstance().updateLogEntryTableWithEntries(logEntries);
                 LogEntryWindow.getInstance().setTotalTimeLabelBasedOnWeekAndYear(year, week);
+                LogEntryWindow.getInstance().updateWeekSelectorBasedOnYear(year);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
