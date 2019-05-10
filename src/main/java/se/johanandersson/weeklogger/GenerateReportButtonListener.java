@@ -35,7 +35,11 @@ public class GenerateReportButtonListener implements ActionListener {
                 LogEntryHandler logEntryHandler = new LogEntryHandler();
                 int selectedYear = LogEntryWindow.getInstance().getSelectedYear();
                 List<Integer> listOfWeeksInAYear = logEntryHandler.getListOfWeeksInAYear(selectedYear);
-                pdf.createTables(listOfWeeksInAYear, selectedYear);
+                if(LogEntryWindow.getInstance().getFilterByCertainWeekSelected().isSelected()){
+                    pdf.createTablesWithOneWeek(LogEntryWindow.getInstance().getSelectedWeek(), selectedYear);
+                } else {
+                    pdf.createTables(listOfWeeksInAYear, selectedYear);
+                }
                 pdf.closeDocument();
                 PDFOpener pdfOpener = new PDFOpener();
                 pdfOpener.openPDFWithInstalledReader(pdf);

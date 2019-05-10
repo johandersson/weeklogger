@@ -24,10 +24,10 @@ public class PDFCreator {
 
     private static final int NUMBER_OF_COLUMNS = 6;
     private static final String FILE_NAME = "report.pdf";
-    private Document document = new Document();
     //private PdfPTable currentTable = new PdfPTable(NUMBER_OF_COLUMNS);
     private static Font headerFont = new Font(Font.FontFamily.HELVETICA, 12,
             Font.BOLD);
+    private Document document = new Document();
 
     public String getFileName() {
         return FILE_NAME;
@@ -71,6 +71,12 @@ public class PDFCreator {
             addLogEntryToCurrentTable(logEntriesWithSameYearAndWeek, w);
         }
 
+    }
+
+    public void createTablesWithOneWeek(int week, int year) throws DocumentException, IOException {
+        LogEntryHandler logEntryHandler = new LogEntryHandler();
+        List<LogEntry> logEntriesWithSameYearAndWeek = logEntryHandler.getLogEntriesWithSameYearAndWeek(year, week);
+        addLogEntryToCurrentTable(logEntriesWithSameYearAndWeek, week);
     }
 
     private void appendTableToDocument(PdfPTable table) throws DocumentException {
