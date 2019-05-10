@@ -107,6 +107,8 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         pack();
         this.setVisible(true);
 
+
+
     }
 
     private void addGenereateReportButton() {
@@ -284,6 +286,8 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         setUpLogEntryTableModel();
         setUpLogEntryTable();
         addLogEntryTableSelectionListener();
+        TablePopupEditor popupEditor = new TablePopupEditor();
+        logEntryTable.getColumnModel().getColumn(5).setCellEditor( popupEditor );
         JScrollPane logEntryTableScollPane = new JScrollPane(logEntryTable);
         return logEntryTableScollPane;
     }
@@ -412,9 +416,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         }
     }
 
-    /**
-     * @return the logger
-     */
+
     public Logger getLogger() {
         return logger;
     }
