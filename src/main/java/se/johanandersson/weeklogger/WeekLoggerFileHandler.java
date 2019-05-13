@@ -18,136 +18,133 @@ import javax.swing.JOptionPane;
 import com.google.gson.Gson;
 
 /**
- * 
  * @author Johan Andersson
- * 
  */
 public class WeekLoggerFileHandler {
 
-	private BufferedWriter outputStream;
-	private Gson jsonObjectHandler;
-	private static final String WEEKLOGGER_FILE = "weeklogger.txt";
-	private static WeekLoggerFileHandler INSTANCE;
-	
+    private BufferedWriter outputStream;
+    private Gson jsonObjectHandler;
+    private static final String WEEKLOGGER_FILE = "weeklogger.txt";
+    private static WeekLoggerFileHandler INSTANCE;
+    private final List<LogEntry> logEntries;
 
-	protected static WeekLoggerFileHandler getInstance() throws IOException {
-		if (INSTANCE == null) {
-			INSTANCE = new WeekLoggerFileHandler();
-		}
-		return INSTANCE;
-	}
 
-	public static String getWeekloggerFile() {
-		return WEEKLOGGER_FILE;
-	}
+    protected static WeekLoggerFileHandler getInstance() throws IOException {
+        if (INSTANCE == null) {
+            INSTANCE = new WeekLoggerFileHandler();
+        }
+        return INSTANCE;
+    }
 
-	private WeekLoggerFileHandler() {
-		jsonObjectHandler = new Gson();
-	}
+    public static String getWeekloggerFile() {
+        return WEEKLOGGER_FILE;
+    }
 
-	public void createOrReadWeekLoggerFile() {
-		setOutputStream(null);
-		try {
-			OutputStreamWriter fileWriter = new OutputStreamWriter(
-					new FileOutputStream(WEEKLOGGER_FILE, true), "UTF-8");
-			setOutputStream(new BufferedWriter(fileWriter));
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,
-					"Couldn't create or read output file");
-		}
+    private WeekLoggerFileHandler() throws IOException {
+        jsonObjectHandler = new Gson();
+        logEntries = readAllLogEntriesFromFile();
+    }
 
-	}
+    public void createOrReadWeekLoggerFile() {
+        setOutputStream(null);
+        try {
+            OutputStreamWriter fileWriter = new OutputStreamWriter(
+                    new FileOutputStream(WEEKLOGGER_FILE, true), "UTF-8");
+            setOutputStream(new BufferedWriter(fileWriter));
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Couldn't create or read output file");
+        }
 
-	/*
-	 * Read logentries from file in json-format and return as list of LogEntry
-	 */
-	private List<LogEntry> readAllLogEntriesFromFile() throws IOException {
-		List<LogEntry> logEntries = new ArrayList<LogEntry>();
+    }
 
-		try {
-			Reader fileReader = new InputStreamReader(new FileInputStream(
-					WEEKLOGGER_FILE), "UTF-8");
-			BufferedReader br = new BufferedReader(fileReader);
-			addLogEntriesFromFileToListOfLogEntries(logEntries, br);
-			fileReader.close();
-		} catch (FileNotFoundException fnfe) {
-			createOrReadWeekLoggerFile();
-		}
+    /*
+     * Read logentries from file in json-format and return as list of LogEntry
+     */
+    private List<LogEntry> readAllLogEntriesFromFile() throws IOException {
+        List<LogEntry> logEntries = new ArrayList<LogEntry>();
 
-		return logEntries;
+        try {
+            Reader fileReader = new InputStreamReader(new FileInputStream(
+                    WEEKLOGGER_FILE), "UTF-8");
+            BufferedReader br = new BufferedReader(fileReader);
+            addLogEntriesFromFileToListOfLogEntries(logEntries, br);
+            fileReader.close();
+        } catch (FileNotFoundException fnfe) {
+            createOrReadWeekLoggerFile();
+        }
 
-	}
+        return logEntries;
 
-	private void addLogEntriesFromFileToListOfLogEntries(
-			List<LogEntry> logEntries, BufferedReader br) throws IOException {
-		String jsonString;
-		while ((jsonString = br.readLine()) != null) {
-			LogEntry ts = jsonObjectHandler
-					.fromJson(jsonString, LogEntry.class);
-			logEntries.add(ts);
-		}
-	}
+    }
 
-	public void writeLogEntryToFileInJSONFormat(LogEntry logEntry)
-			throws IOException {
-		OutputStreamWriter fileWriter = new OutputStreamWriter(
-				new FileOutputStream(WEEKLOGGER_FILE, true), "UTF-8");
-		PrintWriter outPutFile = new PrintWriter(fileWriter);
-		String jsonString = jsonObjectHandler.toJson(logEntry);
-		outPutFile.println(jsonString);
-		outPutFile.close();
-	}
+    private void addLogEntriesFromFileToListOfLogEntries(
+            List<LogEntry> logEntries, BufferedReader br) throws IOException {
+        String jsonString;
+        while ((jsonString = br.readLine()) != null) {
+            LogEntry ts = jsonObjectHandler
+                    .fromJson(jsonString, LogEntry.class);
+            logEntries.add(ts);
+        }
+    }
 
-	public List<LogEntry> getAllLogEntriesFromFile() throws IOException {
-		List<LogEntry> readJsonStream = readAllLogEntriesFromFile();
-		return readJsonStream;
 
-	}
+    public List<LogEntry> getLogEntries() throws IOException {
+        return logEntries;
+    }
 
-	public BufferedWriter getOutputStream() {
-		return outputStream;
-	}
+    public BufferedWriter getOutputStream() {
+        return outputStream;
+    }
 
-	public void setOutputStream(BufferedWriter bufferedWriter) {
-		this.outputStream = bufferedWriter;
-	}
+    public void setOutputStream(BufferedWriter bufferedWriter) {
+        this.outputStream = bufferedWriter;
+    }
 
-	public void deleteCertainLogEntryInFile(LogEntry logEntryToLookFor)
-			throws IOException, LogEntryValidationException {
-		List<LogEntry> readJsonStreamOfLogEntries = readAllLogEntriesFromFile();
+    public void deleteCertainLogEntryInFile(LogEntry logEntryToLookFor)
+            throws IOException, LogEntryValidationException {
 
-		if (readJsonStreamOfLogEntries.contains(logEntryToLookFor)) {
-			readJsonStreamOfLogEntries.remove(logEntryToLookFor);
-			writeLogEntriesToFile(readJsonStreamOfLogEntries);
-		}
-	}
+        if (logEntries.contains(logEntryToLookFor)) {
+            logEntries.remove(logEntryToLookFor);
+            writeLogEntriesToFile(logEntries);
+        }
+    }
 
-	public void writeLogEntriesToFile(List<LogEntry> logEntries)
-			throws IOException, LogEntryValidationException {
+    public void writeLogEntriesToFile(List<LogEntry> logEntries)
+            throws IOException, LogEntryValidationException {
 
-		OutputStreamWriter fileWriter = new OutputStreamWriter(
-				new FileOutputStream(WEEKLOGGER_FILE, false), "UTF-8");
-		PrintWriter outPutFile = new PrintWriter(fileWriter);
+        OutputStreamWriter fileWriter = new OutputStreamWriter(
+                new FileOutputStream(WEEKLOGGER_FILE, false), "UTF-8");
+        PrintWriter outPutFile = new PrintWriter(fileWriter);
 
-		for (LogEntry le : logEntries) {
-			String jsonString = jsonObjectHandler.toJson(le);
-			outPutFile.println(jsonString);
-		}
+        for (LogEntry le : logEntries) {
+            String jsonString = jsonObjectHandler.toJson(le);
+            outPutFile.println(jsonString);
+        }
 
-		outPutFile.close();
-	}
+        outPutFile.close();
+    }
 
-	public boolean isLogEntryInFile(LogEntry testLogEntry) throws IOException {
-		List<LogEntry> logEntriesFromFileToUpdate = readAllLogEntriesFromFile();
-		if (logEntriesFromFileToUpdate.contains(testLogEntry))
-			return true;
+    public boolean isLogEntryInFile(LogEntry testLogEntry) throws IOException {
+        if (logEntries.contains(testLogEntry))
+            return true;
 
-		return false;
+        return false;
+    }
 
-	}
+    public boolean fileHasNoLogEntries() throws IOException {
+        return logEntries.isEmpty();
+    }
 
-	public boolean fileHasNoLogEntries() throws IOException {
-		return readAllLogEntriesFromFile().isEmpty();
-	}
+    public void updateCertainLogEntryInFile(LogEntry logEntryToLookFor, LogEntry newLogEntry) throws IOException, LogEntryValidationException {
+        if (isLogEntryInFile(logEntryToLookFor)) {
+            int index = logEntries.indexOf(logEntryToLookFor);
+            logEntries.set(index, newLogEntry);
+            writeLogEntriesToFile(logEntries);
+        }
+    }
 
+    public void addLogEntry(LogEntry l) {
+        logEntries.add(l);
+    }
 }

@@ -1,12 +1,11 @@
 package se.johanandersson.weeklogger;
 
 import java.io.Serializable;
+
 import org.joda.time.DateTime;
 
 /**
- *
  * @author Johan Andersson
- *
  */
 public class LogEntry implements Comparable<LogEntry>, Serializable {
 
@@ -101,8 +100,7 @@ public class LogEntry implements Comparable<LogEntry>, Serializable {
                 && this.getWeek() == that.getWeek()
                 && this.getYear() == that.getYear()
                 && this.getTotalTime().toString()
-                .equals(that.getTotalTime().toString());
-
+                .equals(that.getTotalTime().toString()) && this.getComment().equals(that.getComment());
     }
 
     public int getYear() {

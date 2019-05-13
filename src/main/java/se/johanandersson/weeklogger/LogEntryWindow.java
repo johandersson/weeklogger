@@ -376,6 +376,12 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         return logEntry;
     }
 
+    public LogEntry getSelectedLogEntryFromTable() {
+        int index = logEntryTable.getSelectedRow();
+        LogEntry logEntry = getSelectedLogEntryFromTable(index);
+        return logEntry;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == deleteLogEntry) {

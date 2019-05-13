@@ -1,4 +1,4 @@
-#WeekLogger
+# WeekLogger
 
 A simple java app for logging working time per week
 

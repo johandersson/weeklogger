@@ -102,7 +102,7 @@ public class LogEntryValidationTest {
 		LogEntry testLogEntry = createTestLogEntry();
 		logEntries.add(testLogEntry);
 		Assert.assertTrue(logEntries.contains(testLogEntry));
-		WeekLoggerFileHandler.getInstance().writeLogEntryToFileInJSONFormat(testLogEntry);
+		WeekLoggerFileHandler.getInstance().addLogEntry(testLogEntry);
 		Assert.assertTrue(WeekLoggerFileHandler.getInstance().isLogEntryInFile(testLogEntry));
 		
 		WeekLoggerFileHandler.getInstance().deleteCertainLogEntryInFile(testLogEntry);

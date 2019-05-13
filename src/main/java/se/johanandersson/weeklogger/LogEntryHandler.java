@@ -73,7 +73,7 @@ public class LogEntryHandler {
 	public List<LogEntry> getLogEntries() throws IOException {
 		if (logEntries == null)
 			return WeekLoggerFileHandler.getInstance()
-					.getAllLogEntriesFromFile();
+					.getLogEntries();
 		else
 			return logEntries;
 	}
@@ -124,7 +124,7 @@ public class LogEntryHandler {
 	}
 
 	public void writeLogEntry(LogEntry currentLogEntry) throws IOException{
-		WeekLoggerFileHandler.getInstance().writeLogEntryToFileInJSONFormat(currentLogEntry);
+		WeekLoggerFileHandler.getInstance().addLogEntry(currentLogEntry);
 	}
 
 	

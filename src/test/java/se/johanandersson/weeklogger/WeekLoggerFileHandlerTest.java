@@ -41,16 +41,29 @@ public class WeekLoggerFileHandlerTest {
 		Assert.assertEquals(countNumberOfLinesInFile("weeklogger.txt"), NUMBER_OF_LINES_IN_TESTFILE);
 
 	}
-	
-	@Test
-	public void testLogEntryInFile() throws IOException, LogEntryValidationException{
-		Assert.assertFalse(WeekLoggerFileHandler.getInstance().isLogEntryInFile(new LogEntry()));
-	}
 
 	@Test
 	public void testEmptyFile() throws IOException {
 		removeFile();
 		Assert.assertTrue(WeekLoggerFileHandler.getInstance().fileHasNoLogEntries());
+	}
+
+	@Test
+	public void testIfCertainLogEntryIsInFile() throws LogEntryValidationException, IOException {
+		LogEntry l = genTestLogDate(new LogEntry());
+		l.setComment("foo");
+		WeekLoggerFileHandler.getInstance().addLogEntry(l);
+		Assert.assertTrue(WeekLoggerFileHandler.getInstance().isLogEntryInFile(l));
+	}
+
+	@Test
+	public void testUpdateCertainLogEntryInFile() throws LogEntryValidationException, IOException {
+		LogEntry oldLogEntry = genTestLogDate(new LogEntry());
+		LogEntry updatedLogEntry = oldLogEntry;
+		updatedLogEntry.setComment("updated comment");
+		WeekLoggerFileHandler.getInstance().addLogEntry(oldLogEntry);
+		WeekLoggerFileHandler.getInstance().updateCertainLogEntryInFile(oldLogEntry, updatedLogEntry);
+		Assert.assertTrue(WeekLoggerFileHandler.getInstance().isLogEntryInFile(updatedLogEntry));
 	}
 	
 
@@ -73,7 +86,7 @@ public class WeekLoggerFileHandlerTest {
 
 	}
 
-	private static void genTestLogDate(LogEntry logEntry)
+	private static LogEntry genTestLogDate(LogEntry logEntry)
 			throws LogEntryValidationException {
 	
 		logEntry.setLogDate(DateTimeUtils.getRandomDateString());
@@ -84,6 +97,7 @@ public class WeekLoggerFileHandlerTest {
 		logEntry.setStopTime("13:04:01");
 		logEntry.setTotalTime(new Time(1, 4, 0));
 
+		return logEntry;
 	}
 
 	public int countNumberOfLinesInFile(String filename) throws IOException {
