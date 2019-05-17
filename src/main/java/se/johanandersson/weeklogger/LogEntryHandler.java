@@ -73,7 +73,7 @@ public class LogEntryHandler {
 	public List<LogEntry> getLogEntries() throws IOException {
 		if (logEntries == null)
 			return WeekLoggerFileHandler.getInstance()
-					.getLogEntries();
+					.readAllLogEntriesFromFile();
 		else
 			return logEntries;
 	}

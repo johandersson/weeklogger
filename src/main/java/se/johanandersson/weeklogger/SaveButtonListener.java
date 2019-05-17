@@ -11,13 +11,7 @@ public class SaveButtonListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-		 try {
-			 List<LogEntry> logEntries = WeekLoggerFileHandler.getInstance().getLogEntries();
-			 WeekLoggerFileHandler.getInstance().writeLogEntriesToFile(logEntries);
-		 } catch (IOException | LogEntryValidationException ex){
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
-        }
+
     }
    
 }

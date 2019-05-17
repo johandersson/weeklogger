@@ -26,7 +26,6 @@ public class WeekLoggerFileHandler {
     private Gson jsonObjectHandler;
     private static final String WEEKLOGGER_FILE = "weeklogger.txt";
     private static WeekLoggerFileHandler INSTANCE;
-    private final List<LogEntry> logEntries;
 
 
     protected static WeekLoggerFileHandler getInstance() throws IOException {
@@ -42,7 +41,6 @@ public class WeekLoggerFileHandler {
 
     private WeekLoggerFileHandler() throws IOException {
         jsonObjectHandler = new Gson();
-        logEntries = readAllLogEntriesFromFile();
     }
 
     public void createOrReadWeekLoggerFile() {
@@ -61,7 +59,7 @@ public class WeekLoggerFileHandler {
     /*
      * Read logentries from file in json-format and return as list of LogEntry
      */
-    private List<LogEntry> readAllLogEntriesFromFile() throws IOException {
+    public List<LogEntry> readAllLogEntriesFromFile() throws IOException {
         List<LogEntry> logEntries = new ArrayList<LogEntry>();
 
         try {
@@ -89,9 +87,6 @@ public class WeekLoggerFileHandler {
     }
 
 
-    public List<LogEntry> getLogEntries() throws IOException {
-        return logEntries;
-    }
 
     public BufferedWriter getOutputStream() {
         return outputStream;
@@ -103,6 +98,7 @@ public class WeekLoggerFileHandler {
 
     public void deleteCertainLogEntryInFile(LogEntry logEntryToLookFor)
             throws IOException, LogEntryValidationException {
+        List<LogEntry> logEntries = readAllLogEntriesFromFile();
 
         if (logEntries.contains(logEntryToLookFor)) {
             logEntries.remove(logEntryToLookFor);
@@ -126,17 +122,29 @@ public class WeekLoggerFileHandler {
     }
 
     public boolean isLogEntryInFile(LogEntry testLogEntry) throws IOException {
+        List<LogEntry> logEntries = readAllLogEntriesFromFile();
         if (logEntries.contains(testLogEntry))
             return true;
 
         return false;
     }
 
+    public void writeLogEntryToFileInJSONFormat(LogEntry logEntry)
+            throws IOException {
+        OutputStreamWriter fileWriter = new OutputStreamWriter(
+                new FileOutputStream(WEEKLOGGER_FILE, true), "UTF-8");
+        PrintWriter outPutFile = new PrintWriter(fileWriter);
+        String jsonString = jsonObjectHandler.toJson(logEntry);
+        outPutFile.println(jsonString);
+        outPutFile.close();
+    }
+
     public boolean fileHasNoLogEntries() throws IOException {
-        return logEntries.isEmpty();
+        return readAllLogEntriesFromFile().isEmpty();
     }
 
     public void updateCertainLogEntryInFile(LogEntry logEntryToLookFor, LogEntry newLogEntry) throws IOException, LogEntryValidationException {
+        List<LogEntry> logEntries = readAllLogEntriesFromFile();
         if (isLogEntryInFile(logEntryToLookFor)) {
             int index = logEntries.indexOf(logEntryToLookFor);
             logEntries.set(index, newLogEntry);
@@ -144,7 +152,7 @@ public class WeekLoggerFileHandler {
         }
     }
 
-    public void addLogEntry(LogEntry l) {
-        logEntries.add(l);
+    public void addLogEntry(LogEntry l) throws IOException {
+        writeLogEntryToFileInJSONFormat(l);
     }
 }

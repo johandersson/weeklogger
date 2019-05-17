@@ -371,9 +371,12 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     public LogEntry getSelectedLogEntryFromTable(int index) {
-        List<LogEntry> logEntries = logEntryTableModel.getLogEntryTable();
-        LogEntry logEntry = logEntries.get(index);
-        return logEntry;
+        if(index>0) {
+            List<LogEntry> logEntries = logEntryTableModel.getLogEntryTable();
+            LogEntry logEntry = logEntries.get(index);
+            return logEntry;
+        }
+        return null;
     }
 
     public LogEntry getSelectedLogEntryFromTable() {

@@ -109,8 +109,10 @@ public class LogEntryTableModel extends AbstractTableModel {
    
 		public void tableChanged(TableModelEvent e) {
 			try{
-				LogEntryWindow.getInstance().getSaveButton().setEnabled(true);
-			} catch(IOException ioe){
+				LogEntry old = LogEntryWindow.getInstance().getSelectedLogEntryFromTable();
+				WeekLoggerFileHandler.getInstance().updateCertainLogEntryInFile(old, old);
+
+			} catch(IOException | LogEntryValidationException ioe){
 					System.err.println(ioe);
 			}
 		}

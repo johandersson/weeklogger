@@ -19,7 +19,7 @@ public class LogEntryTest {
 
     @Test
     public void foo() throws IOException{
-        final List<LogEntry> allLogEntriesFromFile = WeekLoggerFileHandler.getInstance().getLogEntries();
+        final List<LogEntry> allLogEntriesFromFile = WeekLoggerFileHandler.getInstance().readAllLogEntriesFromFile();
         LogEntryHandler l = new LogEntryHandler();
         l.setLogEntries(allLogEntriesFromFile);
         final List<LogEntry> logEntriesWithSameYear = l.getLogEntriesWithSameYear(2005);

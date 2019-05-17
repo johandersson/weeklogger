@@ -100,7 +100,7 @@ public class LogEntry implements Comparable<LogEntry>, Serializable {
                 && this.getWeek() == that.getWeek()
                 && this.getYear() == that.getYear()
                 && this.getTotalTime().toString()
-                .equals(that.getTotalTime().toString()) && this.getComment().equals(that.getComment());
+                .equals(that.getTotalTime().toString());
     }
 
     public int getYear() {
