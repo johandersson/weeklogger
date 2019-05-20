@@ -3,7 +3,6 @@ package se.johanandersson.weeklogger;
 import java.util.List;
 
 /**
- *
  * @author Johan Andersson
  */
 public class Clock {

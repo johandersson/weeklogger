@@ -52,12 +52,11 @@ public class RadioButtonListener implements ActionListener {
         weekSelector.setEnabled(true);
         if (weekSelector.getSelectedItem() != null) {
             try {
-                int year = LogEntryWindow.getInstance().getSelectedYear();
-                int week = LogEntryWindow.getInstance().getSelectedWeek();
-                List<LogEntry> logEntries = logEntryHandler.getLogEntriesWithSameYearAndWeek(year, week);
+                LogEntryWindow.getInstance().updateWeekSelectorBasedOnYear(LogEntryWindow.getInstance().getSelectedYear());
+                List<LogEntry> logEntries = logEntryHandler.getLogEntriesWithSameYearAndWeek(LogEntryWindow.getInstance().getSelectedYear(), LogEntryWindow.getInstance().getSelectedWeek());
                 LogEntryWindow.getInstance().updateLogEntryTableWithEntries(logEntries);
-                LogEntryWindow.getInstance().setTotalTimeLabelBasedOnWeekAndYear(year, week);
-                LogEntryWindow.getInstance().updateWeekSelectorBasedOnYear(year);
+                LogEntryWindow.getInstance().setTotalTimeLabelBasedOnWeekAndYear(LogEntryWindow.getInstance().getSelectedYear(), LogEntryWindow.getInstance().getSelectedWeek());
+
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

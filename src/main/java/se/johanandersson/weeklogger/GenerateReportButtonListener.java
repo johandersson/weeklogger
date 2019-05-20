@@ -12,12 +12,10 @@ import javax.swing.JOptionPane;
 import se.johanandersson.weeklogger.itext.PDFCreator;
 
 
-
 import com.itextpdf.text.DocumentException;
 
 public class GenerateReportButtonListener implements ActionListener {
 
-   
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -35,7 +33,7 @@ public class GenerateReportButtonListener implements ActionListener {
                 LogEntryHandler logEntryHandler = new LogEntryHandler();
                 int selectedYear = LogEntryWindow.getInstance().getSelectedYear();
                 List<Integer> listOfWeeksInAYear = logEntryHandler.getListOfWeeksInAYear(selectedYear);
-                if(LogEntryWindow.getInstance().getFilterByCertainWeekSelected().isSelected()){
+                if (LogEntryWindow.getInstance().getFilterByCertainWeekSelected().isSelected()) {
                     pdf.createTablesWithOneWeek(LogEntryWindow.getInstance().getSelectedWeek(), selectedYear);
                 } else {
                     pdf.createTables(listOfWeeksInAYear, selectedYear);
@@ -55,7 +53,5 @@ public class GenerateReportButtonListener implements ActionListener {
 
     }
 
-    
 
-    
 }

@@ -9,10 +9,10 @@ import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+
 import se.johanandersson.weeklogger.itext.PDFCreator;
 
 /**
- *
  * @author nossrednanahoj
  */
 class PDFOpener {
@@ -29,9 +29,9 @@ class PDFOpener {
         } else {
             JOptionPane
                     .showMessageDialog(
-                    WeekLoggerWindow.getInstance(),
-                    "Stöd sakas för att öppna pdf-filen direkt i förvalt program. Försök att öppna filen manuellt från: "
-                    + pdfFile.getAbsolutePath());
+                            WeekLoggerWindow.getInstance(),
+                            "Stöd sakas för att öppna pdf-filen direkt i förvalt program. Försök att öppna filen manuellt från: "
+                                    + pdfFile.getAbsolutePath());
         }
     }
 
@@ -43,7 +43,7 @@ class PDFOpener {
         } catch (IOException e) {
             JOptionPane
                     .showMessageDialog(WeekLoggerWindow.getInstance(),
-                    "Kunde inte öppna pdf-fil. Se till att du har en pdf-läsare installerad.");
+                            "Kunde inte öppna pdf-fil. Se till att du har en pdf-läsare installerad.");
         }
     }
 }

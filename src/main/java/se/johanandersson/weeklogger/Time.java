@@ -1,9 +1,7 @@
 package se.johanandersson.weeklogger;
 
 /**
- *
  * @author Johan Andersson
- *
  */
 public class Time {
 

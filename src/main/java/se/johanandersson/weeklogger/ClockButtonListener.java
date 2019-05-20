@@ -28,7 +28,7 @@ public class ClockButtonListener implements ActionListener {
     }
 
     private void handleStop(ActionEvent e, JButton stopButton, Clock clock,
-            LogEntry currentLogEntry) throws LogEntryValidationException {
+                            LogEntry currentLogEntry) throws LogEntryValidationException {
         if (e.getSource() == stopButton) {
             if (clock.isZero()) {
                 return;
@@ -74,7 +74,7 @@ public class ClockButtonListener implements ActionListener {
     }
 
     private void handleStart(ActionEvent e, JButton startButton,
-            LogEntry currentLogEntry) throws LogEntryValidationException {
+                             LogEntry currentLogEntry) throws LogEntryValidationException {
         if (e.getSource() == startButton) {
             try {
                 handleStartButton();

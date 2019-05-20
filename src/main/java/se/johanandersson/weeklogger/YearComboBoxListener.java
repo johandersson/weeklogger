@@ -15,30 +15,23 @@ public class YearComboBoxListener implements ActionListener {
     public void actionPerformed(ActionEvent arg0) {
         List<LogEntry> filteredLogEntries = Collections.emptyList();
 
-        int selectedYear = 0;
-        int week = DateTimeUtils.getCurrentWeek();
-        try {
-            selectedYear = LogEntryWindow.getInstance().getSelectedYear();
-            week = LogEntryWindow.getInstance().getSelectedWeek();
-
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
 
         if (!isFilterByAllWeeksSelected()) {
 
             try {
+                final List<Integer> listOfWeeksInAYear = LogEntryWindow.getInstance()
+                        .getLogEntryHandler().getListOfWeeksInAYear(LogEntryWindow.getInstance().getSelectedYear());
+
+                LogEntryWindow.getInstance().updateWeeks(listOfWeeksInAYear);
+
+
                 filteredLogEntries = LogEntryWindow.getInstance()
                         .getLogEntryHandler()
-                        .getLogEntriesWithSameYearAndWeek(selectedYear, week);
+                        .getLogEntriesWithSameYearAndWeek(LogEntryWindow.getInstance().getSelectedYear(), LogEntryWindow.getInstance().getSelectedWeek());
                 LogEntryWindow.getInstance().updateLogEntryTableWithEntries(
                         filteredLogEntries);
-                final List<Integer> listOfWeeksInAYear = LogEntryWindow.getInstance()
-                        .getLogEntryHandler().getListOfWeeksInAYear(selectedYear);
-                
-                LogEntryWindow.getInstance().updateWeeks(listOfWeeksInAYear);
-                
+
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -47,7 +40,7 @@ public class YearComboBoxListener implements ActionListener {
         } else {
             try {
                 filteredLogEntries = getLogEntriesWithSameYear(LogEntryWindow
-                        .getInstance().getLogEntryHandler(), selectedYear);
+                        .getInstance().getLogEntryHandler(), LogEntryWindow.getInstance().getSelectedYear());
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

@@ -87,7 +87,6 @@ public class WeekLoggerFileHandler {
     }
 
 
-
     public BufferedWriter getOutputStream() {
         return outputStream;
     }

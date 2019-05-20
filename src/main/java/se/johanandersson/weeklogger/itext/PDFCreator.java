@@ -88,7 +88,7 @@ public class PDFCreator {
         table.setSpacingAfter(10);
         table.setKeepTogether(true);
         createTableHeader(table);
-        for(LogEntry logEntry: logEntries){
+        for (LogEntry logEntry : logEntries) {
             String week = String.valueOf(logEntry.getWeek());
             table.addCell(week);
             table.addCell(logEntry.getLogDate());
@@ -113,7 +113,7 @@ public class PDFCreator {
 
     private void addTotalTime(List<LogEntry> logEntryList, PdfPTable table, Integer w) {
         final Time totalTime = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryList);
-        String totalTimeHeader = "Total tid vecka " +w+":";
+        String totalTimeHeader = "Total tid vecka " + w + ":";
         final String totalTimeText = totalTimeHeader + totalTime.toString();
         PdfPCell totalTimeCell = new PdfPCell(new Phrase(totalTimeText));
         totalTimeCell.setColspan(6);
@@ -124,8 +124,8 @@ public class PDFCreator {
         table.addCell(new Paragraph("Vecka", headerFont));
         table.addCell(new Paragraph("Datum", headerFont));
         table.addCell(new Paragraph("Start", headerFont));
-        table.addCell(new Paragraph("Slut",headerFont));
-        table.addCell(new Paragraph("Totaltid",headerFont));
-        table.addCell(new Paragraph("Kommentar",headerFont));
+        table.addCell(new Paragraph("Slut", headerFont));
+        table.addCell(new Paragraph("Totaltid", headerFont));
+        table.addCell(new Paragraph("Kommentar", headerFont));
     }
 }

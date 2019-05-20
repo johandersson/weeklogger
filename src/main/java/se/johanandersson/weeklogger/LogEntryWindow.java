@@ -62,7 +62,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private Logger logger;
     private JScrollPane logEntryTableScrollPane;
     private LogEntryHandler logEntryHandler;
-	private ListSelectionModel listSelectionModel;
+    private ListSelectionModel listSelectionModel;
 
     public void update() throws IOException {
         logEntryHandler.resetLogEntries();
@@ -92,10 +92,10 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         this.add(totalTimeInfoPanel);
 
         logEntryTableScrollPane = createLogEntryTable();
-		listSelectionModel = logEntryTable.getSelectionModel();
-		 listSelectionModel.setSelectionMode(
-                        ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-  
+        listSelectionModel = logEntryTable.getSelectionModel();
+        listSelectionModel.setSelectionMode(
+                ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
         this.add(logEntryTableScrollPane);
         this.add(generateReportButtonPanel);
 
@@ -106,7 +106,6 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         this.setVisible(true);
 
 
-
     }
 
     private void addGenereateReportButton() {
@@ -115,8 +114,6 @@ public class LogEntryWindow extends JFrame implements ActionListener {
                 .addActionListener(new GenerateReportButtonListener());
         generateReportButtonPanel.add(generateReportButton);
     }
-	
-
 
 
     private void setUpLogger() {
@@ -218,8 +215,8 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         weekSelector = new JComboBox(listOfWeeks);
         weekAndYearSelectorPanel.add(weekSelector);
     }
-    
-    protected void updateWeeks(List<Integer> weeks){
+
+    protected void updateWeeks(List<Integer> weeks) {
         weekSelector.setModel(new DefaultComboBoxModel(weeks.toArray()));
     }
 
@@ -276,7 +273,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         setUpLogEntryTable();
         addLogEntryTableSelectionListener();
         TablePopupEditor popupEditor = new TablePopupEditor();
-        logEntryTable.getColumnModel().getColumn(5).setCellEditor( popupEditor );
+        logEntryTable.getColumnModel().getColumn(5).setCellEditor(popupEditor);
         JScrollPane logEntryTableScollPane = new JScrollPane(logEntryTable);
         return logEntryTableScollPane;
     }
@@ -309,11 +306,11 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private void deleteLogEntry() throws IOException,
             LogEntryValidationException {
         int[] selectedRows = getSelectedLogEntryRows();
-		LogEntry selectedLogEntryFromTable=null;
-		for(int i=0;i<selectedRows.length;i++){
-			selectedLogEntryFromTable = getSelectedLogEntryFromTable(selectedRows[i]);
-			logEntryHandler.deleteLogEntry(selectedLogEntryFromTable);
-		}
+        LogEntry selectedLogEntryFromTable = null;
+        for (int i = 0; i < selectedRows.length; i++) {
+            selectedLogEntryFromTable = getSelectedLogEntryFromTable(selectedRows[i]);
+            logEntryHandler.deleteLogEntry(selectedLogEntryFromTable);
+        }
 
         update();
     }
@@ -335,7 +332,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
             } else {
                 updatedLogEntries = logEntryHandler
                         .getLogEntriesWithSameYearAndWeek(
-                        this.getSelectedYear(), this.getSelectedWeek());
+                                this.getSelectedYear(), this.getSelectedWeek());
             }
 
         }
@@ -360,7 +357,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     public LogEntry getSelectedLogEntryFromTable(int index) {
-        if(index>=0) {
+        if (index >= 0) {
             List<LogEntry> logEntries = logEntryTableModel.getLogEntryTable();
             LogEntry logEntry = logEntries.get(index);
             return logEntry;
@@ -378,7 +375,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == deleteLogEntry) {
             int answer = JOptionPane.showConfirmDialog(this,
-                    "Vill du ta bort "+ getSelectedLogEntryRows().length+ " rad(er)?");
+                    "Vill du ta bort " + getSelectedLogEntryRows().length + " rad(er)?");
             if (answer == 0) {
                 try {
                     tryToDeleteLogEntry();
@@ -434,5 +431,5 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     public LogEntryHandler getLogEntryHandler() {
         return this.logEntryHandler;
     }
-	
+
 }
