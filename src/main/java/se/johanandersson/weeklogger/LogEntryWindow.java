@@ -1,11 +1,12 @@
 package se.johanandersson.weeklogger;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
+import java.util.Queue;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -23,10 +24,11 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -41,7 +43,7 @@ import org.apache.log4j.Logger;
  */
 public class LogEntryWindow extends JFrame implements ActionListener {
 
-    private static final int WINDOW_WIDTH = 300;
+    private static final int WINDOW_WIDTH = 700;
     private static final int WINDOW_HEIGHT = 300;
     private static LogEntryWindow INSTANCE;
     private JComboBox weekSelector;
@@ -56,13 +58,14 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private JPopupMenu popup;
     private JMenuItem deleteLogEntry;
     private PopupListener popupListener;
-    private JPanel weekAndYearSelectorPanel;
+    private JPanel weekSelectorPanel;
     private JPanel totalTimeInfoPanel;
     private JPanel generateReportButtonPanel;
     private Logger logger;
     private JScrollPane logEntryTableScrollPane;
     private LogEntryHandler logEntryHandler;
     private ListSelectionModel listSelectionModel;
+    private JPanel yearSelectorPanel;
 
     public void update() throws IOException {
         logEntryHandler.resetLogEntries();
@@ -77,8 +80,8 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
         setUpLogger();
         setSizeAndLayout();
-
-        weekAndYearSelectorPanel = new JPanel(new MigLayout("wrap 4"));
+        yearSelectorPanel = new JPanel(new MigLayout("wrap 4"));
+        weekSelectorPanel = new JPanel(new MigLayout("wrap 4"));
         totalTimeInfoPanel = new JPanel(new MigLayout("wrap 2"));
         generateReportButtonPanel = new JPanel(new MigLayout());
 
@@ -86,10 +89,9 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         buildRadioButtonGroup();
 
         addWeekAndYearSelectorPanel();
+        this.add(yearSelectorPanel);
+        this.add(weekSelectorPanel);
 
-        this.add(weekAndYearSelectorPanel);
-        addTotalTimeLabels();
-        this.add(totalTimeInfoPanel);
 
         logEntryTableScrollPane = createLogEntryTable();
         listSelectionModel = logEntryTable.getSelectionModel();
@@ -97,6 +99,8 @@ public class LogEntryWindow extends JFrame implements ActionListener {
                 ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         this.add(logEntryTableScrollPane);
+        addTotalTimeLabels();
+        this.add(totalTimeInfoPanel);
         this.add(generateReportButtonPanel);
 
         createPopupMenu();
@@ -164,14 +168,16 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private void buildRadioButtonGroup() throws IOException {
         fiterWeeksRadioButtonGroup = new ButtonGroup();
         filterByAllWeeksInTheSelectedYear = new JRadioButton("Alla veckor", true);
-        filterByCertainWeekTheSelectedYear = new JRadioButton("Välj viss vecka");
+        filterByCertainWeekTheSelectedYear = new JRadioButton("Vecka: ");
         filterByAllWeeksInTheSelectedYear.setMnemonic(KeyEvent.VK_A);
         filterByCertainWeekTheSelectedYear.setMnemonic(KeyEvent.VK_V);
-
+        JLabel selectweek = new JLabel();
+        selectweek.setText("Välj vecka: ");
+        weekSelectorPanel.add(selectweek,"wrap");
         fiterWeeksRadioButtonGroup.add(filterByAllWeeksInTheSelectedYear);
         fiterWeeksRadioButtonGroup.add(filterByCertainWeekTheSelectedYear);
-        weekAndYearSelectorPanel.add(filterByAllWeeksInTheSelectedYear, "wrap");
-        weekAndYearSelectorPanel.add(filterByCertainWeekTheSelectedYear);
+        weekSelectorPanel.add(filterByAllWeeksInTheSelectedYear, "wrap");
+        weekSelectorPanel.add(filterByCertainWeekTheSelectedYear);
 
         RadioButtonListener filterWeeksRadioButtonListener = new RadioButtonListener();
         filterByAllWeeksInTheSelectedYear.addActionListener(filterWeeksRadioButtonListener);
@@ -213,7 +219,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
             throws IOException {
         Object[] listOfWeeks = logEntryHandler.getListOfWeeks().toArray();
         weekSelector = new JComboBox(listOfWeeks);
-        weekAndYearSelectorPanel.add(weekSelector);
+        weekSelectorPanel.add(weekSelector);
     }
 
     protected void updateWeeks(List<Integer> weeks) {
@@ -223,8 +229,11 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private void addYearsToComboBox(LogEntryHandler logEntryHandler)
             throws IOException {
         Object[] listOfWeeks = logEntryHandler.getListOfYears().toArray();
+        JLabel selectYear = new JLabel();
+        selectYear.setText("Välj år: ");
         yearSelector = new JComboBox(listOfWeeks);
-        weekAndYearSelectorPanel.add(yearSelector);
+        yearSelectorPanel.add(selectYear,"wrap");
+        yearSelectorPanel.add(yearSelector);
     }
 
     private void addTotalTimeLabels() throws IOException {
@@ -287,12 +296,28 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
     private void setUpLogEntryTable() {
         logEntryTable = new JTable(logEntryTableModel);
-        Dimension dimension = new Dimension(400, 400);
+        Dimension dimension = new Dimension(500, 400);
         logEntryTable.setPreferredScrollableViewportSize(dimension);
         logEntryTable.setFillsViewportHeight(true);
         logEntryTable.addMouseListener(new PopupListener());
         logEntryTable.setSelectionMode(0);
+        resizeColumnWidth(logEntryTable);
 
+    }
+
+    public void resizeColumnWidth(JTable table) {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount()-1; column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
     }
 
     private void setUpLogEntryTableModel() throws IOException {
