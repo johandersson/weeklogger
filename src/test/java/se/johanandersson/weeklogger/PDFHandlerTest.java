@@ -15,7 +15,7 @@ import se.johanandersson.weeklogger.itext.PDFCreator;
 
 /**
  *
- * @author nossrednanahoj
+ * @author Johan Andersson
  */
 public class PDFHandlerTest {
     

@@ -43,8 +43,8 @@ import org.apache.log4j.Logger;
  */
 public class LogEntryWindow extends JFrame implements ActionListener {
 
-    private static final int WINDOW_WIDTH = 700;
-    private static final int WINDOW_HEIGHT = 300;
+    private static final int WINDOW_WIDTH = 600;
+    private static final int WINDOW_HEIGHT = 200;
     private static LogEntryWindow INSTANCE;
     private JComboBox weekSelector;
     private JComboBox yearSelector;
@@ -160,7 +160,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
     private void setSizeAndLayout() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        setResizable(false);
+        setResizable(true);
         setTitle("Resultat");
         setLayout(new MigLayout("wrap 1"));
     }

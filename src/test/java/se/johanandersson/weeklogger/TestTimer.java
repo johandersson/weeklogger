@@ -35,14 +35,10 @@ public class TestTimer {
         }
 
 
-
         String result = c.getTime().toString();
         String expected = "01:00:00";
 
         Assert.assertEquals(expected, result);
-
-
-
 
 
     }

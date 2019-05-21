@@ -39,8 +39,6 @@ public class TestLogEntryTableModel {
 	  Assert.assertEquals(actualStartTime,expectedStartTime);
 	  Assert.assertEquals(actualStopTime,expectedStopTime);
 	  Assert.assertEquals(actualWeek, expectedWeek);
-
-	   
 	  
   }
   
