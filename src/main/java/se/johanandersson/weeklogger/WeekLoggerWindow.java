@@ -50,6 +50,7 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
     private JMenuItem showResultTableItem;
     private JMenuItem aboutMenuItem;
     static Logger logger = Logger.getLogger(WeekLoggerWindow.class);
+    private PopupDialog popupDialog;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -59,7 +60,7 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
     }
 
     private WeekLoggerWindow() throws LogEntryValidationException {
-
+        popupDialog = new PopupDialog(this);
         buildGUI();
 
         setCurrentLogEntry(new LogEntry());
@@ -190,8 +191,9 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
     }
 
     protected void logTheLogEntry() {
-        String commentText = JOptionPane
-                .showInputDialog("Skriv en kommentar");
+        popupDialog.setText("");
+        popupDialog.show();
+        String commentText = popupDialog.getText();
         getCurrentLogEntry().setComment(commentText);
         getCurrentLogEntry().setTotalTime(clock.getTime());
 

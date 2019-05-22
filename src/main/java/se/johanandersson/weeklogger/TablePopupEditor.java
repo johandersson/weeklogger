@@ -24,7 +24,7 @@ public class TablePopupEditor extends DefaultCellEditor
         editorComponent.setContentAreaFilled(false);
 
 
-        popup = new PopupDialog();
+        popup = new PopupDialog(this);
     }
 
     public Object getCellEditorValue() {
@@ -49,52 +49,12 @@ public class TablePopupEditor extends DefaultCellEditor
         return editorComponent;
     }
 
+    public void setCurrentText(String text){
+        currentText=text;
+    }
+
     /*
      *   Simple dialog containing the actual editing component
      */
-    class PopupDialog extends JDialog implements ActionListener {
-        private JTextArea textArea;
 
-        public PopupDialog() {
-            super((Frame) null, "Ändra kommentar", true);
-
-            textArea = new JTextArea(5, 20);
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-            KeyStroke keyStroke = KeyStroke.getKeyStroke("ENTER");
-            textArea.getInputMap().put(keyStroke, "none");
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            getContentPane().add(scrollPane);
-
-            JButton cancel = new JButton("Cancel");
-            cancel.addActionListener(this);
-            JButton ok = new JButton("Ok");
-            ok.setPreferredSize(cancel.getPreferredSize());
-            ok.addActionListener(this);
-
-            JPanel buttons = new JPanel();
-            buttons.add(ok);
-            buttons.add(cancel);
-            getContentPane().add(buttons, BorderLayout.SOUTH);
-            pack();
-
-            getRootPane().setDefaultButton(ok);
-        }
-
-        public void setText(String text) {
-            textArea.setText(text);
-        }
-
-        /*
-         *   Save the changed text before hiding the popup
-         */
-        public void actionPerformed(ActionEvent e) {
-            if ("Ok".equals(e.getActionCommand())) {
-                currentText = textArea.getText();
-            }
-
-            textArea.requestFocusInWindow();
-            setVisible(false);
-        }
-    }
 }
