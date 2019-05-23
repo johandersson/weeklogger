@@ -208,14 +208,19 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         if(filterByCertainWeekTheSelectedYear.isSelected()){
            updateWeekSelectorBasedOnYear(LogEntryWindow.getInstance().getSelectedYear());
         } else {
-            yearSelector.setModel(new DefaultComboBoxModel(logEntryHandler
-                    .getListOfYears().toArray()));
+            if(yearSelector.getItemCount()!=logEntryHandler.getListOfYears().size()){
+                yearSelector.setModel(new DefaultComboBoxModel(logEntryHandler
+                        .getListOfYears().toArray()));
+            }
         }
 
     }
 
     protected void updateWeekSelectorBasedOnYear(int year) throws IOException {
-        weekSelector.setModel(new DefaultComboBoxModel(logEntryHandler.getListOfWeeksInAYear(year).toArray()));
+        if(weekSelector.getItemCount()!=logEntryHandler.getListOfWeeksInAYear(year).size()){
+            weekSelector.setModel(new DefaultComboBoxModel(logEntryHandler.getListOfWeeksInAYear(year).toArray()));
+        }
+
     }
 
     private void addWeeksToComboBox(LogEntryHandler logEntryHandler)

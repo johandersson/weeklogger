@@ -92,16 +92,16 @@ public class LogEntryHandler {
     }
 
     public List<Integer> getListOfYears() throws IOException {
-        List<Integer> listOfWeeks = new ArrayList<>();
+        List<Integer> listOfYears = new ArrayList<>();
 
         for (LogEntry logEntry : this.getLogEntries()) {
             int year = logEntry.getYear();
-            if (!listOfWeeks.contains(year))
-                listOfWeeks.add(year);
+            if (!listOfYears.contains(year))
+                listOfYears.add(year);
         }
 
-        Collections.sort(listOfWeeks);
-        return listOfWeeks;
+        Collections.sort(listOfYears);
+        return listOfYears;
     }
 
 
