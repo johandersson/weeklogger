@@ -69,9 +69,9 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
     public void update() throws IOException {
         logEntryHandler.resetLogEntries();
+        updateYearAndWeekSelectors();
         updateTable();
         updateTotalTimeLabel();
-        updateYearAndWeekSelectors();
     }
 
     private LogEntryWindow() throws IOException {
@@ -205,10 +205,13 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     protected void updateYearAndWeekSelectors() throws IOException {
-        weekSelector.setModel(new DefaultComboBoxModel(logEntryHandler
-                .getListOfWeeks().toArray()));
-        yearSelector.setModel(new DefaultComboBoxModel(logEntryHandler
-                .getListOfYears().toArray()));
+        if(filterByCertainWeekTheSelectedYear.isSelected()){
+           updateWeekSelectorBasedOnYear(LogEntryWindow.getInstance().getSelectedYear());
+        } else {
+            yearSelector.setModel(new DefaultComboBoxModel(logEntryHandler
+                    .getListOfYears().toArray()));
+        }
+
     }
 
     protected void updateWeekSelectorBasedOnYear(int year) throws IOException {
@@ -341,9 +344,9 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     private void updateTable() throws IOException {
-        List<LogEntry> updateLogEntryTableBasedOnSelectedWeekAndYear = this
+        List<LogEntry> updatedLogEntries = this
                 .updateLogEntryTableBasedOnSelectedWeekAndYear();
-        updateLogEntryTableWithEntries(updateLogEntryTableBasedOnSelectedWeekAndYear);
+        updateLogEntryTableWithEntries(updatedLogEntries);
 
     }
 
