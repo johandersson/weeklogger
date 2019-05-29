@@ -1,10 +1,8 @@
 package se.johanandersson.weeklogger;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class LogEntryCalculator {
 
@@ -51,38 +49,26 @@ public class LogEntryCalculator {
     }
 
     public List<LogEntry> getLogEntriesWithTheSameYearAndWeek(int year, int week) throws IOException {
-        List<LogEntry> logEntriesWithSameYearAndWeek = new ArrayList<>();
-
-        for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
-            if (logEntry.getYear() == year
-                    && logEntry.getWeek() == week) {
-                logEntriesWithSameYearAndWeek.add(logEntry);
-            }
-        }
-        return logEntriesWithSameYearAndWeek;
+        return logEntryHandler.getLogEntries()
+                .stream()
+                .filter(l -> l.getYear() == year)
+                .filter(l->l.getWeek()==week)
+                .collect(Collectors.toList());
 
     }
 
     public List<LogEntry> getLogEntriesWithTheSameWeek(int week) throws IOException {
-        List<LogEntry> logEntriesWithSameWeek = new ArrayList<>();
-        for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
-            if (logEntry.getWeek() == week)
-                logEntriesWithSameWeek.add(logEntry);
-        }
-
-        return logEntriesWithSameWeek;
+        return logEntryHandler.getLogEntries()
+                .stream()
+                .filter(l -> l.getWeek() == week)
+                .collect(Collectors.toList());
     }
 
     public List<LogEntry> getLogEntriesWithTheSameYear(int year) throws IOException {
-        List<LogEntry> logEntriesWithSameYear = new ArrayList<>();
-
-        for (LogEntry logEntry : logEntryHandler.getLogEntries()) {
-            if (logEntry.getYear() == year) {
-                logEntriesWithSameYear.add(logEntry);
-            }
-        }
-        return logEntriesWithSameYear;
-
+        return logEntryHandler.getLogEntries()
+                .stream()
+                .filter(l -> l.getYear() == year)
+                .collect(Collectors.toList());
     }
 
 
