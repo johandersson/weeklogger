@@ -10,16 +10,16 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
-
+import se.johanandersson.weeklogger.itext.PDFCreator;
 
 /**
  * @author nossrednanahoj
  */
-class WordOpener {
+class PDFOpener {
 
     private File pdfFile;
 
-    /*public void openPDFWithInstalledReader(PDFCreator pdf)
+    public void openPDFWithInstalledReader(PDFCreator pdf)
             throws HeadlessException, IOException, LogEntryValidationException {
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
@@ -45,5 +45,5 @@ class WordOpener {
                     .showMessageDialog(WeekLoggerWindow.getInstance(),
                             "Kunde inte öppna pdf-fil. Se till att du har en pdf-läsare installerad.");
         }
-    }*/
+    }
 }
