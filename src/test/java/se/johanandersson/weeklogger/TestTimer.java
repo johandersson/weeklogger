@@ -193,6 +193,15 @@ public class TestTimer {
     }
 
     @Test
+    public void testIsZero() {
+        Clock c = new Clock(new Time(0, 0, 0));
+        Assert.assertTrue(c.isZero());
+        c.start();
+        c.tick();
+        Assert.assertFalse(c.isZero());
+    }
+
+    @Test
     public void testClockIsTicking() {
         Clock c = new Clock(new Time(0, 0, 0));
         Assert.assertFalse(c.isTicking());

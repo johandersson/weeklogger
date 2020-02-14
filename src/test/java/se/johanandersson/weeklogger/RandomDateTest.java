@@ -1,8 +1,11 @@
 package se.johanandersson.weeklogger;
 
 
-import junit.framework.Assert;
 
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class RandomDateTest {
