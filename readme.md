@@ -6,8 +6,9 @@ Copyright: Johan Andersson, johanbkandersson@gmail.com
 	
 Texts in the program is currently only in swedish
 
-Build with: 
-mvn install
+Build with:
+ 
+mvn install\
 mvn clean compile assembly:single
 
 

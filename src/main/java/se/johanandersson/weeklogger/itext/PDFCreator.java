@@ -24,7 +24,6 @@ public class PDFCreator {
 
     private static final int NUMBER_OF_COLUMNS = 6;
     private static final String FILE_NAME = "report.pdf";
-    //private PdfPTable currentTable = new PdfPTable(NUMBER_OF_COLUMNS);
     private static Font headerFont = new Font(Font.FontFamily.HELVETICA, 12,
             Font.BOLD);
     private Document document = new Document();
@@ -55,8 +54,7 @@ public class PDFCreator {
         document.addSubject("Tidrapport per vecka");
         document.addKeywords("veckologgaren");
         document.addKeywords("tidrapport");
-        document.addAuthor("Veckologgaren");
-        document.addCreator("Johan Andersson(c)");
+        document.addAuthor("Weeklogger");
 
     }
 
@@ -64,9 +62,7 @@ public class PDFCreator {
 
         LogEntryHandler logEntryHandler = new LogEntryHandler();
 
-
         for (Integer w : listOfWeeks) {
-
             List<LogEntry> logEntriesWithSameYearAndWeek = logEntryHandler.getLogEntriesWithSameYearAndWeek(year, w);
             addLogEntryToCurrentTable(logEntriesWithSameYearAndWeek, w);
         }
@@ -112,10 +108,15 @@ public class PDFCreator {
     }
 
     private void addTotalTime(List<LogEntry> logEntryList, PdfPTable table, Integer w) {
-        final Time totalTime = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryList);
-        String totalTimeHeader = "Total tid vecka " + w + ":";
-        final String totalTimeText = totalTimeHeader + totalTime.toString();
-        PdfPCell totalTimeCell = new PdfPCell(new Phrase(totalTimeText));
+        final var totalTime = LogEntryCalculator.calculateTotalTimeOfLogEntries(logEntryList);
+        var totalTimeHeader = "Total tid vecka " + w + ": ";
+        var totalTimeParagraph = new Paragraph(totalTime.toString(), headerFont);
+        var totalTimeHeaderParagraph = new Paragraph(totalTimeHeader);
+        var totalTimePhrase = new Phrase();
+        totalTimePhrase.add(totalTimeHeaderParagraph);
+        totalTimePhrase.add(totalTimeParagraph);
+
+        var totalTimeCell = new PdfPCell(totalTimePhrase);
         totalTimeCell.setColspan(6);
         table.addCell(totalTimeCell);
     }

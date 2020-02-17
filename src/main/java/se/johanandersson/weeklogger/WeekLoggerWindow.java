@@ -250,7 +250,13 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 
     @Override
     public void windowActivated(WindowEvent arg0) {
-        // TODO Auto-generated method stub
+        if (!clock.isTicking()) {
+            String currentDate = DateTimeUtils.getCurrentDate();
+            String logDate = getCurrentLogEntry().getLogDate();
+            if (!logDate.equals(currentDate)) { //open window but changed date
+                setTimeAndWeekLabel();
+            }
+        }
     }
 
     @Override
