@@ -80,7 +80,8 @@ public class PDFCreator {
     }
 
     private void addLogEntryToCurrentTable(List<LogEntry> logEntries, Integer w) throws DocumentException {
-        PdfPTable table = new PdfPTable(NUMBER_OF_COLUMNS);
+        float widths[]= {0.75f,1.5f,1,1,1,2.5f};
+        PdfPTable table = new PdfPTable(widths);
         table.setSpacingAfter(10);
         table.setKeepTogether(true);
         createTableHeader(table);

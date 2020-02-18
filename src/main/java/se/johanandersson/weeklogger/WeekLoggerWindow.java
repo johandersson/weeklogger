@@ -3,10 +3,7 @@ package se.johanandersson.weeklogger;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -32,7 +29,7 @@ import org.apache.log4j.BasicConfigurator;
  * @author Johan Andersson
  *
  */
-public class WeekLoggerWindow extends JFrame implements ActionListener, WindowListener {
+public class WeekLoggerWindow extends JFrame implements ActionListener, WindowListener, WindowStateListener, WindowFocusListener {
 
     private static WeekLoggerWindow INSTANCE = null;
     private final int WINDOW_WIDTH = 400;
@@ -70,6 +67,8 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
         //Don't exit on 'X'-window-click
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(this);
+        addWindowFocusListener(this);
+        addWindowStateListener(this);
 
         BasicConfigurator.configure();
         logger.info("Created window");
@@ -250,14 +249,15 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 
     @Override
     public void windowActivated(WindowEvent arg0) {
-        if (!clock.isTicking()) {
-            String currentDate = DateTimeUtils.getCurrentDate();
-            String logDate = getCurrentLogEntry().getLogDate();
-            if (!logDate.equals(currentDate)) { //open window but changed date
-                setTimeAndWeekLabel();
-            }
-        }
+
     }
+
+    @Override
+    public void windowStateChanged(WindowEvent e) {
+
+    }
+
+
 
     @Override
     public void windowClosed(WindowEvent arg0) {
@@ -298,6 +298,24 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 
     private void setCurrentLogEntry(LogEntry currentLogEntry) {
         this.currentLogEntry = currentLogEntry;
+    }
+
+    @Override
+    public void windowGainedFocus(WindowEvent e) {
+         if (!clock.isTicking()) {
+            String currentDate = DateTimeUtils.getCurrentDate();
+            String logDate = getCurrentLogEntry().getLogDate();
+            if (!logDate.equals(currentDate)) { //open window but changed date
+                setTimeAndWeekLabel();
+            }
+        }
+        logger.info("Gained focus");
+
+    }
+
+    @Override
+    public void windowLostFocus(WindowEvent e) {
+
     }
 
     private class FileMenuCreator {
