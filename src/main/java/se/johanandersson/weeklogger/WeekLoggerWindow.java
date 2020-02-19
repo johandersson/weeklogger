@@ -63,6 +63,7 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
         setCurrentLogEntry(new LogEntry());
         timer = new Timer(1000, this);
         clock = new Clock(new Time(0, 0, 0));
+        weekLabel.setName("weekLabel");
 
         //Don't exit on 'X'-window-click
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -129,6 +130,8 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
     }
 
     private void buildGUI() {
+        weekLabel = new JLabel();
+        timeLabel = new JLabel();
         setUpWeekLoggerWindow();
         setTitlesOfButtons();
         addActionListenersToButtons();
@@ -296,12 +299,16 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
         // TODO Auto-generated method stub
     }
 
-    private void setCurrentLogEntry(LogEntry currentLogEntry) {
+    void setCurrentLogEntry(LogEntry currentLogEntry) {
         this.currentLogEntry = currentLogEntry;
     }
 
+    void updateWeekLabel(LogEntry l){
+        weekLabel.setText(l.getLogDate() + " vecka: " + l.getWeek());
+    }
+
     @Override
-    public void windowGainedFocus(WindowEvent e) {
+    public void windowGainedFocus(WindowEvent e)  {
          if (!clock.isTicking()) {
             String currentDate = DateTimeUtils.getCurrentDate();
             String logDate = getCurrentLogEntry().getLogDate();
@@ -355,10 +362,11 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
     private class TimeAndWeekLabelCreator {
 
         public void invoke() {
-            timeLabel = new JLabel("00:00:00");
+            timeLabel.setText("00:00:00");
             String currentWeek = String.valueOf(DateTimeUtils.getCurrentWeek());
             String currentDate = DateTimeUtils.getCurrentDate();
-            weekLabel = new JLabel(currentDate + " vecka: " + currentWeek);
+            weekLabel.setText(currentDate + " vecka: " + currentWeek);
+            weekLabel.setName("weekLabel");
             Font timerFont = new Font("Arial", Font.BOLD, 30);
             Font weekFont = new Font("Arial", Font.ITALIC, 14);
             timeLabel.setFont(timerFont);
