@@ -314,6 +314,11 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
             String logDate = getCurrentLogEntry().getLogDate();
             if (!logDate.equals(currentDate)) { //open window but changed date
                 setTimeAndWeekLabel();
+                try {
+                    setCurrentLogEntry(new LogEntry());
+                } catch (LogEntryValidationException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
         logger.info("Gained focus");

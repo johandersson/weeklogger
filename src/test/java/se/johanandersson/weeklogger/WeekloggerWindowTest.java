@@ -36,6 +36,7 @@ public class WeekloggerWindowTest {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_GAINED_FOCUS));
         JLabelMatcher m2 = withName("weekLabel").andText(weekLabelString).andShowing();
         window.label(m2);
+        Assert.assertTrue(frame.getCurrentLogEntry().getLogDate().equals(DateTimeUtils.getCurrentDate()));
     }
 
 }
