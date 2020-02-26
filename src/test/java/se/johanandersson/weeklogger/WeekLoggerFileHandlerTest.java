@@ -16,11 +16,11 @@ public class WeekLoggerFileHandlerTest {
 	private static final int NUMBER_OF_LINES_IN_TESTFILE = 300;
 
 	@BeforeSuite
-	public void removeFile() {
-		File file = new File(WeekLoggerFileHandler.getWeekloggerFile());
-		// Delete test file
-		if (file.exists())
-			file.delete();
+	public void removeFile() throws IOException, LogEntryValidationException {
+		WeekLoggerFileHandler.getInstance().createOrReadWeekLoggerFile();
+		List<LogEntry> logEntries;
+		logEntries = createCorrectTestLogEntries();
+		WeekLoggerFileHandler.getInstance().writeLogEntriesToFile(logEntries);
 	}
 	
 	
@@ -32,21 +32,7 @@ public class WeekLoggerFileHandlerTest {
 	}
 
 
-	@Test
-	public void testWrite() throws IOException, LogEntryValidationException {
-		WeekLoggerFileHandler.getInstance().createOrReadWeekLoggerFile();
-		List<LogEntry> logEntries = new ArrayList<LogEntry>();
-		logEntries = createCorrectTestLogEntries();
-		WeekLoggerFileHandler.getInstance().writeLogEntriesToFile(logEntries);
-		Assert.assertEquals(countNumberOfLinesInFile("weeklogger.txt"), NUMBER_OF_LINES_IN_TESTFILE);
 
-	}
-
-	@Test
-	public void testEmptyFile() throws IOException {
-		removeFile();
-		Assert.assertTrue(WeekLoggerFileHandler.getInstance().fileHasNoLogEntries());
-	}
 
 	@Test
 	public void testIfCertainLogEntryIsInFile() throws LogEntryValidationException, IOException {
@@ -70,7 +56,7 @@ public class WeekLoggerFileHandlerTest {
 	static List<LogEntry> createCorrectTestLogEntries()
 			throws LogEntryValidationException {
 
-		List<LogEntry> logEntries = new ArrayList<LogEntry>();
+		List<LogEntry> logEntries = new ArrayList<>();
 
 		for (int i = 0; i < NUMBER_OF_LINES_IN_TESTFILE; i++) {
 			LogEntry logEntry = new LogEntry();

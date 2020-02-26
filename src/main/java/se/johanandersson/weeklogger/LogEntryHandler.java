@@ -120,7 +120,7 @@ public class LogEntryHandler {
                 logEntry);
     }
 
-    public void writeLogEntry(LogEntry currentLogEntry) throws IOException {
+    public void writeLogEntry(LogEntry currentLogEntry) throws IOException, LogEntryValidationException {
         WeekLoggerFileHandler.getInstance().addLogEntry(currentLogEntry);
     }
 
