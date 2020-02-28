@@ -4,6 +4,7 @@ import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.testng.Assert;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.uispec4j.utils.Log;
@@ -38,5 +39,11 @@ public class WeekloggerWindowTest {
         window.label(m2);
         Assert.assertTrue(frame.getCurrentLogEntry().getLogDate().equals(DateTimeUtils.getCurrentDate()));
     }
+
+    @AfterSuite
+    public void tearDown() {
+       window.close();
+    }
+
 
 }

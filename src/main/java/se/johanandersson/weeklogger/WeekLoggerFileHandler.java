@@ -51,20 +51,21 @@ public class WeekLoggerFileHandler {
     /*
      * Read logentries from file in json-format and return as list of LogEntry
      */
-    public List<LogEntry> readAllLogEntriesFromFile() throws IOException {
-        List<LogEntry> logEntries = new ArrayList<>();
-
-        try {
-            logEntries = gson.fromJson(new FileReader(WEEKLOGGER_FILE),
-                    new TypeToken<ArrayList<LogEntry>>() {}.getType());
-
-
-        } catch (FileNotFoundException fnfe) {
+    public List readAllLogEntriesFromFile() throws IOException {
+        ArrayList<LogEntry> logEntries = new ArrayList<>();
+        var file = new File(WEEKLOGGER_FILE);
+        if(!file.exists()){
             createOrReadWeekLoggerFile();
         }
 
-        return logEntries;
+        logEntries = gson.fromJson(new FileReader(WEEKLOGGER_FILE),
+                    new TypeToken<ArrayList<LogEntry>>() {}.getType());
 
+        if(logEntries==null){
+            return new ArrayList<LogEntry>();
+        }
+
+        return logEntries;
     }
 
 
