@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -54,21 +55,26 @@ public class WeekLoggerFileHandler {
     public List readAllLogEntriesFromFile() throws IOException {
         ArrayList<LogEntry> logEntries = new ArrayList<>();
         var file = new File(WEEKLOGGER_FILE);
-        if(!file.exists()){
+        if (!file.exists()) {
             createOrReadWeekLoggerFile();
         }
+        try {
+            logEntries = gson.fromJson(new FileReader(WEEKLOGGER_FILE),
+                    new TypeToken<ArrayList<LogEntry>>() {
+                    }.getType());
 
-        logEntries = gson.fromJson(new FileReader(WEEKLOGGER_FILE),
-                    new TypeToken<ArrayList<LogEntry>>() {}.getType());
-
-        if(logEntries==null){
+        } catch (JsonSyntaxException jsonSyntaxException) {
+            JOptionPane.showMessageDialog(null,
+                    "Fel i filen med loggade tider. Kontrollera att den har korrekt format.",
+                    "Korrupt fil",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        if (logEntries == null) {
             return new ArrayList<LogEntry>();
         }
 
         return logEntries;
     }
-
-
 
 
     public BufferedWriter getOutputStream() {

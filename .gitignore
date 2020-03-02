@@ -45,3 +45,5 @@ target/*
 
 *.zip
 
+*.json
+
