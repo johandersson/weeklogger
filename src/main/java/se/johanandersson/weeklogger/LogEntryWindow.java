@@ -29,9 +29,6 @@ import javax.swing.table.TableColumnModel;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
-
 @SuppressWarnings("serial")
 /**
  *
@@ -61,7 +58,6 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private JPanel weekSelectorPanel;
     private JPanel totalTimeInfoPanel;
     private JPanel generateReportButtonPanel;
-    private Logger logger;
     private JScrollPane logEntryTableScrollPane;
     private LogEntryHandler logEntryHandler;
     private ListSelectionModel listSelectionModel;
@@ -78,7 +74,6 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
         logEntryHandler = new LogEntryHandler();
 
-        setUpLogger();
         setSizeAndLayout();
         yearSelectorPanel = new JPanel(new MigLayout("wrap 4"));
         weekSelectorPanel = new JPanel(new MigLayout("wrap 4"));
@@ -119,13 +114,6 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         generateReportButtonPanel.add(generateReportButton);
     }
 
-
-    private void setUpLogger() {
-        logger = Logger.getLogger(LogEntryWindow.class);
-        BasicConfigurator.configure();
-        getLogger().removeAllAppenders();
-        getLogger().info("Created LogEntryWindow");
-    }
 
     protected JRadioButton getFilterByAllWeeks() {
         return filterByAllWeeksInTheSelectedYear;
@@ -413,7 +401,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
                 try {
                     tryToDeleteLogEntry();
                 } catch (LogEntryValidationException e1) {
-                    getLogger().info("Could not validate deleted logentry!");
+                    System.err.println("Could not validate deleted logentry!");
                 }
             }
         }
@@ -424,7 +412,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         try {
             deleteLogEntry();
         } catch (IOException e1) {
-            getLogger().info("Could not delete logentry!");
+            System.err.println("Could not delete logentry!");
         }
     }
 
@@ -445,9 +433,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
 
-    public Logger getLogger() {
-        return logger;
-    }
+
 
     private static class LogEntryTableSelectionListener implements
             ListSelectionListener {

@@ -18,9 +18,6 @@ import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.StringUtils;
-// Import log4j classes.
-import org.apache.log4j.Logger;
-import org.apache.log4j.BasicConfigurator;
 
 @SuppressWarnings("serial")
 /**
@@ -46,7 +43,6 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
     private JMenuItem exitItem;
     private JMenuItem showResultTableItem;
     private JMenuItem aboutMenuItem;
-    static Logger logger = Logger.getLogger(WeekLoggerWindow.class);
     private PopupDialog popupDialog;
 
     @Override
@@ -71,8 +67,6 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
         addWindowFocusListener(this);
         addWindowStateListener(this);
 
-        BasicConfigurator.configure();
-        logger.info("Created window");
     }
 
     public static WeekLoggerWindow getInstance() throws IOException, LogEntryValidationException {
@@ -321,7 +315,6 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
                 }
             }
         }
-        logger.info("Gained focus");
 
     }
 
