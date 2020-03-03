@@ -23,7 +23,7 @@ public class LogEntryTest {
         LogEntryHandler l = new LogEntryHandler();
         l.setLogEntries(allLogEntriesFromFile);
         final List<LogEntry> logEntriesWithSameYear = l.getLogEntriesWithSameYear(2005);
-        final List<Integer> listOfWeeks = l.getListOfWeeks();
+        final List<Integer> listOfWeeks = l.getListOfWeeksInAYear(2005);
         Assert.assertNotNull(listOfWeeks);
         
         for(Integer i: listOfWeeks){

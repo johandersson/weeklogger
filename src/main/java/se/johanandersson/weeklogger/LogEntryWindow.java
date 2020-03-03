@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
-import java.util.Queue;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -184,8 +183,14 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     private void addWeekAndYearSelectorPanel() throws IOException {
-        addWeeksToComboBox(logEntryHandler);
-        addYearsToComboBox(logEntryHandler);
+        createYearComboBoxAndAddToPanel(logEntryHandler);
+        createWeekSelectorAndAddToPanel(logEntryHandler);
+        List<Integer> listOfYears= logEntryHandler.getListOfYears();
+        updateYears(listOfYears);
+
+        List<Integer> listOfWeeks = logEntryHandler.getListOfWeeksInAYear(getSelectedYear());
+        updateWeeks(listOfWeeks);
+
         yearSelector.addActionListener(new YearComboBoxListener());
         weekSelector.addActionListener(new WeekComboBoxListener());
         weekSelector.setEnabled(false);
@@ -211,10 +216,8 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
     }
 
-    private void addWeeksToComboBox(LogEntryHandler logEntryHandler)
-            throws IOException {
-        Object[] listOfWeeks = logEntryHandler.getListOfWeeks().toArray();
-        weekSelector = new JComboBox(listOfWeeks);
+    private void createWeekSelectorAndAddToPanel(LogEntryHandler logEntryHandler) {
+        weekSelector = new JComboBox();
         weekSelectorPanel.add(weekSelector);
     }
 
@@ -222,12 +225,15 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         weekSelector.setModel(new DefaultComboBoxModel(weeks.toArray()));
     }
 
-    private void addYearsToComboBox(LogEntryHandler logEntryHandler)
+    protected void updateYears(List<Integer> years) {
+        yearSelector.setModel(new DefaultComboBoxModel(years.toArray()));
+    }
+
+    private void createYearComboBoxAndAddToPanel(LogEntryHandler logEntryHandler)
             throws IOException {
-        Object[] listOfWeeks = logEntryHandler.getListOfYears().toArray();
         JLabel selectYear = new JLabel();
         selectYear.setText("Välj år: ");
-        yearSelector = new JComboBox(listOfWeeks);
+        yearSelector = new JComboBox();
         yearSelectorPanel.add(selectYear,"wrap");
         yearSelectorPanel.add(yearSelector);
     }
@@ -425,7 +431,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     protected int getSelectedYear() {
-        if (yearSelector.getSelectedItem() != null) {
+        if (yearSelector!= null) {
             return (Integer) yearSelector.getSelectedItem();
         } else {
             return DateTimeUtils.getCurrentYear();
