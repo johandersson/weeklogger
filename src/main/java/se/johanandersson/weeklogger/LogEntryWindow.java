@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
@@ -285,6 +286,10 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         addLogEntryTableSelectionListener();
         TablePopupEditor popupEditor = new TablePopupEditor();
         logEntryTable.getColumnModel().getColumn(5).setCellEditor(popupEditor);
+        //Set up tool tips for the sport cells.
+        CommentRenderer renderer =
+                new CommentRenderer();
+        logEntryTable.getColumnModel().getColumn(5).setCellRenderer(renderer);
         JScrollPane logEntryTableScollPane = new JScrollPane(logEntryTable);
         return logEntryTableScollPane;
     }
@@ -431,7 +436,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     protected int getSelectedYear() {
-        if (yearSelector!= null) {
+        if (yearSelector.getSelectedItem()!= null) {
             return (Integer) yearSelector.getSelectedItem();
         } else {
             return DateTimeUtils.getCurrentYear();
