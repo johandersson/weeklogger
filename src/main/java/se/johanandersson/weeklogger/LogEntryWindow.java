@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -23,7 +24,6 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
@@ -71,7 +71,6 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     private LogEntryWindow() throws IOException {
-
         logEntryHandler = new LogEntryHandler();
 
         setSizeAndLayout();
@@ -149,7 +148,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private void setSizeAndLayout() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setResizable(true);
-        setTitle("Resultat");
+        setTitle("Veckoöversikt");
         setLayout(new MigLayout("wrap 1"));
     }
 
@@ -286,10 +285,16 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         addLogEntryTableSelectionListener();
         TablePopupEditor popupEditor = new TablePopupEditor();
         logEntryTable.getColumnModel().getColumn(5).setCellEditor(popupEditor);
-        //Set up tool tips for the sport cells.
-        CommentRenderer renderer =
+
+        CommentRenderer commentRenderer =
                 new CommentRenderer();
-        logEntryTable.getColumnModel().getColumn(5).setCellRenderer(renderer);
+
+        DayRenderer dayRenderer =
+                new DayRenderer();
+        logEntryTable.getColumnModel().getColumn(5).setCellRenderer(commentRenderer);
+
+        logEntryTable.getColumnModel().getColumn(0).setCellRenderer(dayRenderer);
+
         JScrollPane logEntryTableScollPane = new JScrollPane(logEntryTable);
         return logEntryTableScollPane;
     }
