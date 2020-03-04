@@ -4,9 +4,12 @@ package se.johanandersson.weeklogger;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
+
 
 public class DayRenderer extends JLabel
         implements TableCellRenderer {
@@ -23,10 +26,13 @@ public class DayRenderer extends JLabel
         setText(date);
         var day = date.split("-");
         LocalDate localDate = LocalDate.of(Integer.valueOf(day[0]), Integer.valueOf(day[1]), Integer.valueOf(day[2]));
+        var formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM");
+        localDate.format(formatter);
         Locale locale=new Locale("sv","SE");
         //Getting the day of week for a given date
-        java.time.DayOfWeek dayOfWeek = localDate.getDayOfWeek();
-        setToolTipText(dayOfWeek.getDisplayName(TextStyle.FULL, locale));
+        DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+        setToolTipText(localDate.format(formatter));
+        this.setFont(this.getFont().deriveFont(Font.PLAIN));
         return this;
     }
 }
