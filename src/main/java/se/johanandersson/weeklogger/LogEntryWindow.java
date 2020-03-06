@@ -160,7 +160,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         filterByCertainWeekTheSelectedYear.setMnemonic(KeyEvent.VK_V);
         JLabel selectweek = new JLabel();
         selectweek.setText("Välj vecka: ");
-        weekSelectorPanel.add(selectweek,"wrap");
+        weekSelectorPanel.add(selectweek, "wrap");
         fiterWeeksRadioButtonGroup.add(filterByAllWeeksInTheSelectedYear);
         fiterWeeksRadioButtonGroup.add(filterByCertainWeekTheSelectedYear);
         weekSelectorPanel.add(filterByAllWeeksInTheSelectedYear, "wrap");
@@ -185,7 +185,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     private void addWeekAndYearSelectorPanel() throws IOException {
         createYearComboBoxAndAddToPanel(logEntryHandler);
         createWeekSelectorAndAddToPanel(logEntryHandler);
-        List<Integer> listOfYears= logEntryHandler.getListOfYears();
+        List<Integer> listOfYears = logEntryHandler.getListOfYears();
         updateYears(listOfYears);
 
         List<Integer> listOfWeeks = logEntryHandler.getListOfWeeksInAYear(getSelectedYear());
@@ -198,20 +198,20 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     protected void updateYearAndWeekSelectors() throws IOException {
-        if(filterByCertainWeekTheSelectedYear.isSelected()){
-           updateWeekSelectorBasedOnYear(LogEntryWindow.getInstance().getSelectedYear());
+        if (filterByCertainWeekTheSelectedYear.isSelected()) {
+            int selectedYear = LogEntryWindow.getInstance().getSelectedYear();
+            updateWeekSelectorBasedOnYear(selectedYear);
         } else {
-            if(yearSelector.getItemCount()!=logEntryHandler.getListOfYears().size()){
-                yearSelector.setModel(new DefaultComboBoxModel(logEntryHandler
-                        .getListOfYears().toArray()));
-            }
+            updateYears(logEntryHandler.getListOfYears());
+            updateWeeks(logEntryHandler.getListOfWeeksInAYear(LogEntryWindow.getInstance().getSelectedYear()));
         }
 
     }
 
     protected void updateWeekSelectorBasedOnYear(int year) throws IOException {
-        if(weekSelector.getItemCount()!=logEntryHandler.getListOfWeeksInAYear(year).size()){
-            weekSelector.setModel(new DefaultComboBoxModel(logEntryHandler.getListOfWeeksInAYear(year).toArray()));
+        List<Integer> listOfWeeksInAYear = logEntryHandler.getListOfWeeksInAYear(year);
+        if (weekSelector.getItemCount() != listOfWeeksInAYear.size()) {
+            updateWeeks(listOfWeeksInAYear);
         }
 
     }
@@ -234,7 +234,7 @@ public class LogEntryWindow extends JFrame implements ActionListener {
         JLabel selectYear = new JLabel();
         selectYear.setText("Välj år: ");
         yearSelector = new JComboBox();
-        yearSelectorPanel.add(selectYear,"wrap");
+        yearSelectorPanel.add(selectYear, "wrap");
         yearSelectorPanel.add(yearSelector);
     }
 
@@ -319,15 +319,15 @@ public class LogEntryWindow extends JFrame implements ActionListener {
 
     public void resizeColumnWidth(JTable table) {
         final TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount()-1; column++) {
+        for (int column = 0; column < table.getColumnCount() - 1; column++) {
             int width = 15; // Min width
             for (int row = 0; row < table.getRowCount(); row++) {
                 TableCellRenderer renderer = table.getCellRenderer(row, column);
                 Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
+                width = Math.max(comp.getPreferredSize().width + 1, width);
             }
-            if(width > 300)
-                width=300;
+            if (width > 300)
+                width = 300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
@@ -441,14 +441,12 @@ public class LogEntryWindow extends JFrame implements ActionListener {
     }
 
     protected int getSelectedYear() {
-        if (yearSelector.getSelectedItem()!= null) {
+        if (yearSelector.getSelectedItem() != null) {
             return (Integer) yearSelector.getSelectedItem();
         } else {
             return DateTimeUtils.getCurrentYear();
         }
     }
-
-
 
 
     private static class LogEntryTableSelectionListener implements
