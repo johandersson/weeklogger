@@ -17,41 +17,13 @@ public class LogEntryHandler {
         logEntryCalc = new LogEntryCalculator(this);
     }
 
-    public void addLogEntryToList(LogEntry logEntry) throws IOException {
-        getLogEntries().add(logEntry);
-    }
-
-    public Time getTotalTimeOfAllLogEntries() throws IOException {
-        return LogEntryCalculator.calculateTotalTimeOfLogEntries(this.getLogEntries());
-    }
-
-    public Time getTotalTimeOfLogEntriesForCertainWeek(int week)
-            throws IOException {
-
-        List<LogEntry> entriesWithSameWeek = readEntriesWithSameWeekFromFile(week);
-        Time totalTimeOfLogEntries = LogEntryCalculator
-                .calculateTotalTimeOfLogEntries(entriesWithSameWeek);
-
-        if (totalTimeOfLogEntries == null)
-            return new Time(0, 0, 0);
-
-        return totalTimeOfLogEntries;
-    }
-
-    private List<LogEntry> readEntriesWithSameWeekFromFile(int week) throws IOException {
-        List<LogEntry> entriesWithTheSameWeek = logEntryCalc.getLogEntriesWithTheSameWeek(week);
-        return entriesWithTheSameWeek;
-    }
-
-
-
     public List<Integer> getListOfWeeksInAYear(int year) throws IOException {
         List<Integer> listOfWeeks = new ArrayList<>();
 
-        for (LogEntry logEntry : this.getLogEntries()) {
+        this.getLogEntries().forEach(logEntry -> {
             if (logEntry.getYear() == year && !listOfWeeks.contains(logEntry.getWeek()))
                 listOfWeeks.add(logEntry.getWeek());
-        }
+        });
 
         Collections.sort(listOfWeeks);
         return listOfWeeks;

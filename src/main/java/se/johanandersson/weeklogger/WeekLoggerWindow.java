@@ -188,7 +188,7 @@ public class WeekLoggerWindow extends JFrame implements ActionListener, WindowLi
 
     protected void logTheLogEntry() {
         popupDialog.setText("");
-        popupDialog.show();
+        popupDialog.setVisible(true);
         String commentText = popupDialog.getText();
         getCurrentLogEntry().setComment(commentText);
         getCurrentLogEntry().setTotalTime(clock.getTime());

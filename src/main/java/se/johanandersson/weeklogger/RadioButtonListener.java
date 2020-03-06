@@ -52,10 +52,12 @@ public class RadioButtonListener implements ActionListener {
         weekSelector.setEnabled(true);
         if (weekSelector.getSelectedItem() != null) {
             try {
-                LogEntryWindow.getInstance().updateWeekSelectorBasedOnYear(LogEntryWindow.getInstance().getSelectedYear());
-                List<LogEntry> logEntries = logEntryHandler.getLogEntriesWithSameYearAndWeek(LogEntryWindow.getInstance().getSelectedYear(), LogEntryWindow.getInstance().getSelectedWeek());
-                LogEntryWindow.getInstance().updateLogEntryTableWithEntries(logEntries);
-                LogEntryWindow.getInstance().setTotalTimeLabelBasedOnWeekAndYear(LogEntryWindow.getInstance().getSelectedYear(), LogEntryWindow.getInstance().getSelectedWeek());
+                final var selectedYear = LogEntryWindow.getInstance().getSelectedYear();
+                LogEntryWindow.getInstance().updateWeekSelectorBasedOnYear(selectedYear);
+                final var selectedWeek = LogEntryWindow.getInstance().getSelectedWeek();
+                List<LogEntry> logEntriesWithSameYearAndWeek = logEntryHandler.getLogEntriesWithSameYearAndWeek(selectedYear, selectedWeek);
+                LogEntryWindow.getInstance().updateLogEntryTableWithEntries(logEntriesWithSameYearAndWeek);
+                LogEntryWindow.getInstance().setTotalTimeLabelBasedOnWeekAndYear(selectedYear, selectedWeek);
 
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
@@ -68,8 +70,8 @@ public class RadioButtonListener implements ActionListener {
         weekSelector.setEnabled(false);
         int year = LogEntryWindow.getInstance().getSelectedYear();
         try {
-            List<LogEntry> logEntries = logEntryHandler.getLogEntriesWithSameYear(year);
-            LogEntryWindow.getInstance().updateLogEntryTableWithEntries(logEntries);
+            List<LogEntry> logEntriesWithSameYear = logEntryHandler.getLogEntriesWithSameYear(year);
+            LogEntryWindow.getInstance().updateLogEntryTableWithEntries(logEntriesWithSameYear);
             LogEntryWindow.getInstance().setTotalTimeLabelBasedOnYear(year);
         } catch (IOException e1) {
             // TODO Auto-generated catch block
