@@ -6,6 +6,8 @@ Copyright: Johan Andersson, johanbkandersson@gmail.com
 	
 Texts in the program is currently only in swedish
 
+Requires Java 13+
+
 Build with:
  
 mvn install\
