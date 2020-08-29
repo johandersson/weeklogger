@@ -1,6 +1,7 @@
 package se.johanandersson.weeklogger;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class WeekLoggerFileHandler {
             createOrReadWeekLoggerFile();
         }
         try {
-            logEntries = gson.fromJson(new FileReader(WEEKLOGGER_FILE),
+            logEntries = gson.fromJson(new FileReader(WEEKLOGGER_FILE, Charset.forName("UTF-8")),
                     new TypeToken<ArrayList<LogEntry>>() {
                     }.getType());
 
