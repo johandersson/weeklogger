@@ -2,7 +2,7 @@
 
 A simple java app for logging working time per week
 
-Copyright: Johan Andersson, johanbkandersson@gmail.com
+Copyright: Johan Andersson, johanbkandersson[at]gmail.com
 	
 Texts in the program is currently only in swedish
 
