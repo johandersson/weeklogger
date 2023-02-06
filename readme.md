@@ -3,8 +3,6 @@
 Ett enkelt java-program för att logga tid per vecka, se http://weeklogger.wordpress.com för hur man laddar ner och använder det.
 
 Copyright: Johan Andersson, johanbkandersson[at]gmail.com
-	
-Texts in the program is currently only in swedish
 
 Kräver Java 13+
 
