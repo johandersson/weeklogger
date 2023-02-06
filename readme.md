@@ -1,14 +1,14 @@
 # WeekLogger
 
-A simple java app for logging working time per week, see http://weeklogger.wordpress.com on how to download and use.
+Ett enkelt java-program för att logga tid per vecka, se http://weeklogger.wordpress.com för hur man laddar ner och använder det.
 
 Copyright: Johan Andersson, johanbkandersson[at]gmail.com
 	
 Texts in the program is currently only in swedish
 
-Requires Java 13+
+Kräver Java 13+
 
-Build with:
+Bygg med:
  
 mvn install\
 mvn clean compile assembly:single
