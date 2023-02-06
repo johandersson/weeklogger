@@ -1,6 +1,6 @@
 # WeekLogger
 
-A simple java app for logging working time per week
+A simple java app for logging working time per week, see http://weeklogger.wordpress.com on how to download and use.
 
 Copyright: Johan Andersson, johanbkandersson[at]gmail.com
 	
