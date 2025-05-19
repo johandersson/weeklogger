@@ -1,6 +1,6 @@
 # WeekLogger
 
-Ett enkelt java-program för att logga tid per vecka, se http://weeklogger.wordpress.com för hur man laddar ner och använder det.
+Ett enkelt java-program för att logga tid per vecka.
 
 Copyright: Johan Andersson, johanbkandersson[at]gmail.com
 
