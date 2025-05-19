@@ -1,5 +1,7 @@
 package se.johanandersson.weeklogger;
 
+import com.github.weisj.darklaf.LafManager;
+
 import java.io.IOException;
 
 import javax.swing.SwingUtilities;
@@ -7,11 +9,11 @@ import javax.swing.SwingUtilities;
 public class Main {
 
     public static void main(String[] args) {
-        handleMacOS();
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                LafManager.install();
                 try {
                     WeekLoggerWindow.getInstance().setVisible(true);
                 } catch (IOException | LogEntryValidationException e) {
@@ -20,17 +22,5 @@ public class Main {
                 }
             }
         });
-    }
-
-    private static void handleMacOS() {
-        if (isUserComputerMac()) {
-            System.setProperty("apple.laf.useScreenMenuBar", "false");
-            // set the name of the application menu item
-            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WeekLogger");
-        }
-    }
-
-    private static boolean isUserComputerMac() {
-        return System.getProperty("os.name").startsWith("Mac");
     }
 }
