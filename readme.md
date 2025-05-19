@@ -1,16 +1,14 @@
-# WeekLogger
+# Veckologgaren 
 
-Ett enkelt java-program för att logga tid per vecka.
-
-Copyright: Johan Andersson, johanbkandersson[at]gmail.com
-
-Kräver Java 13+
-
-Bygg med:
- 
-mvn install\
-mvn clean compile assembly:single
-
+- **Veckologgaren** – det enkla verktyget för att logga och följa din arbetstid vecka för vecka!
+- Snyggt och modernt gränssnitt med stöd för Dark Mode (Darklaf).
+- Logga tid och kommentarer för varje arbetsdag – snabbt och smidigt.
+- Se en tydlig översikt av alla dina loggade veckor och dagar.
+- Filtrera och visa arbetstid per vecka eller för hela året.
+- Generera rapporter för valfri vecka eller år i pdf-format.
+- Räkna automatiskt ut total arbetad tid för vald period.
+- Redigera och ta bort loggposter direkt i översikten.
+- Spara och ladda loggar – all data hanteras lokalt på din dator.
 
 License: GPL v3
 ---------------------------------------------------------------
